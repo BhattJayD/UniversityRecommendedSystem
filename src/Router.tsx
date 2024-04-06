@@ -12,7 +12,7 @@ const Stack = createStackNavigator();
 
 function MyStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="AppInfo">
       <Stack.Screen
         options={{headerShown: false}}
         name="AppInfo"
