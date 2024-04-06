@@ -1,6 +1,7 @@
 import React from 'react';
 import {View} from 'react-native';
 import Router from './Router';
+import './styles/unistyles';
 
 const App = () => {
   return (

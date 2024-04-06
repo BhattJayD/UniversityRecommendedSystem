@@ -2,45 +2,41 @@ import * as React from 'react';
 import {Button, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import {
+  UnistylesRuntime,
+  createStyleSheet,
+  useStyles,
+} from 'react-native-unistyles';
 
-function HomeScreen({navigation}) {
+function HomeScreen({navigation}: any) {
+  const {styles} = useStyles(stylesheet);
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <View style={styles.flex}>
       <Button
         title="Go to Profile"
         onPress={() => navigation.navigate('Profile')}
       />
-    </View>
-  );
-}
-
-function ProfileScreen({navigation}) {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Button
-        title="Go to Notifications"
-        onPress={() => navigation.navigate('Notifications')}
+        title="Go to Settings"
+        onPress={() => {
+          UnistylesRuntime.setTheme(
+            UnistylesRuntime.themeName === 'dark' ? 'light' : 'dark',
+          );
+        }}
       />
-      <Button title="Go back" onPress={() => navigation.goBack()} />
     </View>
   );
 }
 
-function NotificationsScreen({navigation}) {
+function NotificationsScreen({navigation}: any) {
+  const {styles} = useStyles(stylesheet);
+
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <View style={styles.flex}>
       <Button
         title="Go to Settings"
         onPress={() => navigation.navigate('Settings')}
       />
-      <Button title="Go back" onPress={() => navigation.goBack()} />
-    </View>
-  );
-}
-
-function SettingsScreen({navigation}) {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Button title="Go back" onPress={() => navigation.goBack()} />
     </View>
   );
@@ -53,8 +49,6 @@ function MyStack() {
     <Stack.Navigator>
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Notifications" component={NotificationsScreen} />
-      <Stack.Screen name="Profile" component={ProfileScreen} />
-      <Stack.Screen name="Settings" component={SettingsScreen} />
     </Stack.Navigator>
   );
 }
@@ -66,3 +60,12 @@ export default function Router() {
     </NavigationContainer>
   );
 }
+
+const stylesheet = createStyleSheet(theme => ({
+  flex: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: theme.colors.background,
+  },
+}));
