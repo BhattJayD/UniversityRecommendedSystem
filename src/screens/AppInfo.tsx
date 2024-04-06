@@ -4,7 +4,7 @@ import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import Iconpack from '../utils/Iconpack';
 import Button from '../components/Button';
 
-const AppInfo = () => {
+const AppInfo = ({navigation}: any) => {
   const {styles} = useStyles(stylesheet);
   return (
     <View style={styles.flex}>
@@ -48,7 +48,7 @@ const AppInfo = () => {
         </View>
       </View>
       <View style={styles.bottomBtn}>
-        <Button title="Continue" />
+        <Button title="Continue" onPress={() => navigation.navigate('Login')} />
         <Text style={styles.withUsTxt}>
           100 aspirants already exploring there options with us
         </Text>

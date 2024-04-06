@@ -4,16 +4,21 @@ import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 type ButtonType = {
   title: string;
+  onPress: () => void;
 };
 
-const Button = ({title}: ButtonType) => {
+const Button = ({title, onPress}: ButtonType) => {
   const {styles} = useStyles(stylesheet);
 
   return (
     <TouchableOpacity
       style={styles.mainView}
       onPress={() => {
-        // alert(1);
+        try {
+          onPress();
+        } catch (error) {
+          console.log(error);
+        }
       }}>
       <Text style={styles.titleTxt}>{title}</Text>
     </TouchableOpacity>
