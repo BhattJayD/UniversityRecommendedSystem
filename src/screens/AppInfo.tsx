@@ -3,8 +3,56 @@ import {Image, Text, View} from 'react-native';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import Iconpack from '../utils/Iconpack';
 import Button from '../components/Button';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  Easing,
+} from 'react-native-reanimated';
 
 const AppInfo = ({navigation}: any) => {
+  const offsetTitleView = useSharedValue(0);
+
+  const animatedStylesTitle = useAnimatedStyle(() => ({
+    // transform: [{translateX: offsetTitleView.value}],
+    opacity: offsetTitleView.value,
+  }));
+
+  const offsetFstKey = useSharedValue(-4000);
+
+  const animatedStylesFst = useAnimatedStyle(() => ({
+    transform: [{translateX: offsetFstKey.value}],
+  }));
+
+  const offsetSndKey = useSharedValue(4000);
+
+  const animatedStylesSnd = useAnimatedStyle(() => ({
+    transform: [{translateX: offsetSndKey.value}],
+  }));
+
+  const offsetTrdKey = useSharedValue(-4000);
+
+  const animatedStylesTrd = useAnimatedStyle(() => ({
+    transform: [{translateX: offsetTrdKey.value}],
+  }));
+
+  const offsetTBtn = useSharedValue(0);
+
+  const animatedStylesBtn = useAnimatedStyle(() => ({
+    opacity: offsetTBtn.value,
+  }));
+
+  React.useEffect(() => {
+    offsetTitleView.value = withTiming(1, {duration: 500});
+
+    offsetFstKey.value = withTiming(0, {duration: 2000, easing: Easing.ease});
+    offsetSndKey.value = withTiming(0, {duration: 2500, easing: Easing.ease});
+    offsetTrdKey.value = withTiming(0, {duration: 3000, easing: Easing.ease});
+    offsetTBtn.value = withTiming(1, {duration: 8000, easing: Easing.bounce});
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const {styles} = useStyles(stylesheet);
   return (
     <View style={styles.flex}>
@@ -13,14 +61,14 @@ const AppInfo = ({navigation}: any) => {
         <Image style={styles.logoImg} source={Iconpack.ICON} />
       </View>
       <View style={styles.container}>
-        <View style={styles.titleView}>
+        <Animated.View style={[styles.titleView, animatedStylesTitle]}>
           <Text style={styles.welcomeText}>Welcome to university finder</Text>
           <Text style={styles.desText}>
             one app for all your stydy abroad needs
           </Text>
-        </View>
+        </Animated.View>
 
-        <View style={styles.infoView}>
+        <Animated.View style={[styles.infoView, animatedStylesFst]}>
           <Text style={styles.welcomeText}>
             Discover Universities & Courses
           </Text>
@@ -28,16 +76,16 @@ const AppInfo = ({navigation}: any) => {
             Across the UK, Australia, New Zealand, Canada, Us, Europe & South
             Korea
           </Text>
-        </View>
+        </Animated.View>
 
-        <View style={styles.infoView}>
+        <Animated.View style={[styles.infoView, animatedStylesSnd]}>
           <Text style={styles.welcomeText}>Track Your Progress</Text>
           <Text style={styles.desText}>
             And stay on top of your applications & offer sratus at all times
           </Text>
-        </View>
+        </Animated.View>
 
-        <View style={styles.infoView}>
+        <Animated.View style={[styles.infoView, animatedStylesTrd]}>
           <Text style={styles.welcomeText}>
             Discover Universities & Sourses
           </Text>
@@ -45,14 +93,14 @@ const AppInfo = ({navigation}: any) => {
             Across the UK, Australia, New Zealand, Canada, Us, Europe & South
             Korea
           </Text>
-        </View>
+        </Animated.View>
       </View>
-      <View style={styles.bottomBtn}>
+      <Animated.View style={[styles.bottomBtn, animatedStylesBtn]}>
         <Button title="Continue" onPress={() => navigation.navigate('Login')} />
         <Text style={styles.withUsTxt}>
           100 aspirants already exploring there options with us
         </Text>
-      </View>
+      </Animated.View>
     </View>
   );
 };
