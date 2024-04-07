@@ -7,6 +7,7 @@ import {
 import AppInfo from './screens/AppInfo';
 import Login from './screens/Login';
 import Register from './screens/Register';
+import Home from './screens/Home';
 
 const Stack = createStackNavigator();
 
@@ -21,13 +22,28 @@ function MyStack() {
       <Stack.Screen
         options={{
           headerShown: false,
-          title: 'Profile',
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         }}
         name="Login"
         component={Login}
       />
-      <Stack.Screen name="Register" component={Register} />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+          cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
+        }}
+        name="Register"
+        component={Register}
+      />
+
+      <Stack.Screen
+        options={{
+          headerShown: false,
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}
+        name="Home"
+        component={Home}
+      />
     </Stack.Navigator>
   );
 }
