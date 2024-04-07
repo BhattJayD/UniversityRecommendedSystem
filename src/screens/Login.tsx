@@ -89,11 +89,15 @@ const Login = ({navigation}: any) => {
         <Button
           title="Login"
           onPress={() => {
-            AuthStore.onSignIn(username, password).then(r => {
-              if (r === 'success') {
-                navigation.navigate('Register');
-              }
-            });
+            AuthStore.onSignIn(username, password)
+              .then(r => {
+                if (r === 'success') {
+                  navigation.navigate('Home');
+                }
+              })
+              .catch(e => {
+                console.log(e);
+              });
           }}
         />
         <Text style={styles.accTxt}>

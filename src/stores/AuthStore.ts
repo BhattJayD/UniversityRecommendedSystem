@@ -1,7 +1,13 @@
 import {makeAutoObservable} from 'mobx';
 
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
-import {isEmpty, showToast} from '../utils/Helper';
+import {
+  getFromAsyncStorage,
+  isEmpty,
+  showToast,
+  storeToAsyncStorage,
+} from '../utils/Helper';
+import {StorageConstants} from '../utils/StorageConstants';
 
 class authStore {
   constructor() {
@@ -17,13 +23,18 @@ class authStore {
 
   onSignIn = async (username: string, password: string) => {
     return await new Promise(async (resolve, reject) => {
+      if (isEmpty(username) || isEmpty(password)) {
+        showToast("username/password can't be empty");
+        return true;
+      }
       try {
         auth()
           .signInWithEmailAndPassword(username, password)
           .then(async r => {
             console.log('User signed in anonymously');
             showToast('Successful sign-in');
-
+            await storeToAsyncStorage(StorageConstants.Username, username);
+            await storeToAsyncStorage(StorageConstants.Password, password);
             resolve('success');
             this.user = r;
           })
@@ -54,6 +65,8 @@ class authStore {
           .then(async r => {
             console.log('User signed in anonymously');
             showToast('Successful sign-in');
+            await storeToAsyncStorage(StorageConstants.Username, username);
+            await storeToAsyncStorage(StorageConstants.Password, password);
 
             resolve('success');
             this.user = r;
@@ -68,6 +81,38 @@ class authStore {
           });
       } catch (error) {
         console.log(error);
+        reject('error');
+      }
+    });
+  };
+
+  checkForAuth = async () => {
+    return await new Promise(async (resolve, reject) => {
+      try {
+        let username: string | null | undefined = null;
+        let password: string | null | undefined = null;
+        username = await getFromAsyncStorage(StorageConstants.Username);
+        password = await getFromAsyncStorage(StorageConstants.Password);
+        if (isEmpty(username) && isEmpty(password)) {
+          resolve('Appinfo');
+        } else {
+          // Ensure username and password are not null or undefined
+          if (username && password) {
+            await this.onSignIn(username, password)
+              .then(r => {
+                console.log(r);
+                resolve('Home');
+              })
+              .catch(r => {
+                console.log(r);
+                resolve('Appinfo');
+              });
+          } else {
+            resolve('Appinfo');
+          }
+        }
+      } catch (error) {
+        console.log(error, 'checkForAuth');
         reject('error');
       }
     });
