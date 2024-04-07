@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Text, TextInput, View} from 'react-native';
 import Animated, {
   Easing,
@@ -8,9 +8,15 @@ import Animated, {
 } from 'react-native-reanimated';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import Button from '../components/Button';
+import AuthStore from '../stores/AuthStore';
 
 const Login = ({navigation}: any) => {
   const {styles} = useStyles(stylesheet);
+
+  // states
+
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
   const appName = useSharedValue(-1000);
 
@@ -56,19 +62,40 @@ const Login = ({navigation}: any) => {
       <Animated.View style={[styles.ipView, EmailViewValStyle]}>
         <Text>Email</Text>
         <View style={styles.txtIpView}>
-          <TextInput placeholder="Email" />
+          <TextInput
+            value={username}
+            onChangeText={e => {
+              setUsername(e);
+            }}
+            placeholder="Email"
+          />
         </View>
       </Animated.View>
 
       <Animated.View style={[styles.ipView, PasswdViewValStyle]}>
         <Text>Password</Text>
         <View style={styles.txtIpView}>
-          <TextInput placeholder="Password" />
+          <TextInput
+            value={password}
+            onChangeText={e => {
+              setPassword(e);
+            }}
+            placeholder="Password"
+          />
         </View>
       </Animated.View>
 
       <Animated.View style={[styles.bottomBtn, loginBtnStyle]}>
-        <Button title="Login" onPress={() => navigation.navigate('Login')} />
+        <Button
+          title="Login"
+          onPress={() => {
+            AuthStore.onSignIn(username, password).then(r => {
+              if (r === 'success') {
+                navigation.navigate('Register');
+              }
+            });
+          }}
+        />
         <Text style={styles.accTxt}>
           Don't have an account?
           <Text
