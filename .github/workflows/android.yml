@@ -16,9 +16,9 @@ jobs:
           java-version: 17
       - name: Check PR title
         env:
-          PR_TITLE: ${{ github.event.pusher.username }}
+          PR_TITLE: ${{ github.event.pull_request.head.ref }}
         run: |
-          echo -e “----------------------------\n$PR_TITLE\n----------------------------\n”
+          echo -e “$PR_TITLE”
       # - name: Yarn install
       #   run: yarn
       # - name: Build Android Release
