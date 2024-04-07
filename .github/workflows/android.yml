@@ -34,9 +34,10 @@ jobs:
           # Severities lower than this value will be reported in the workflow console but will not cause an error for the action; value should be one of: critical | high | medium | low
           severity: low
           # Severities lower than this value will be reported in the workflow console but will not cause an error for the action; value should be one of: critical | high | medium | low
-          # language:
-          # # Optional flags for the bloodhound-cli code command - run bloodhound cli code --help for more details
-          # flags: # optional, default is
+          language: javascript
+          # Optional flags for the bloodhound-cli code command - run bloodhound cli code --help for more details
+          flags: # optional, default is
+
 
       # - name: Yarn install
       #   run: yarn
