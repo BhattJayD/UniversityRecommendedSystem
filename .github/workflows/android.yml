@@ -14,16 +14,21 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 17
-      - name: Yarn install
-        run: yarn
-      - name: Build Android Release
+      - name: Check PR title
         env:
-          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+          PR_TITLE: ${{ github.event.pusher.username }}
         run: |
-          echo $GOOGLE_SERVICES_JSON > android/app/google-services.json
-          cd android && ./gradlew assembleRelease
-      - name: Upload APK artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: my-app-release
-          path: android/app/build/outputs/apk/release/app-release.apk
+          echo -e “----------------------------\n$PR_TITLE\n----------------------------\n”
+      # - name: Yarn install
+      #   run: yarn
+      # - name: Build Android Release
+      #   env:
+      #     GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+      #   run: |
+      #     echo $GOOGLE_SERVICES_JSON > android/app/google-services.json
+      #     cd android && ./gradlew assembleRelease
+      # - name: Upload APK artifact
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: my-app-release
+      #     path: android/app/build/outputs/apk/release/app-release.apk
