@@ -8,6 +8,7 @@ import {
   storeToAsyncStorage,
 } from '../utils/Helper';
 import {StorageConstants} from '../utils/StorageConstants';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class authStore {
   constructor() {
@@ -116,6 +117,20 @@ class authStore {
         reject('error');
       }
     });
+  };
+  logout = async () => {
+    try {
+      auth()
+        .signOut()
+        .then(() => {
+          AsyncStorage.clear();
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
 }
 const AuthStore = new authStore();

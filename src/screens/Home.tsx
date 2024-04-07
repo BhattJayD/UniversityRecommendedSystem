@@ -9,6 +9,7 @@ import Animated, {
   withTiming,
   Easing,
 } from 'react-native-reanimated';
+import AuthStore from '../stores/AuthStore';
 
 const Home = ({navigation}: any) => {
   const offsetTitleView = useSharedValue(0);
@@ -96,7 +97,13 @@ const Home = ({navigation}: any) => {
         </Animated.View>
       </View>
       <Animated.View style={[styles.bottomBtn, animatedStylesBtn]}>
-        <Button title="Continue" onPress={() => navigation.navigate('Login')} />
+        <Button
+          title="Logout"
+          onPress={() => {
+            AuthStore.logout();
+            navigation.replace('AppInfo');
+          }}
+        />
         <Text style={styles.withUsTxt}>
           100 aspirants already exploring there options with us
         </Text>
