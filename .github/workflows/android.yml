@@ -17,11 +17,9 @@ jobs:
       - name: Check PR title
         env:
           email: ${{ github.event.pusher.email }}
-          date: ${{ github.event.pusher.date }}
-          name: ${{ github.event.pusher.name }}
           username: ${{ github.event.pusher.username }}
         run: |
-          echo $username;echo $name; echo $date; echo $email
+          echo $username; echo $email
       # - name: Yarn install
       #   run: yarn
       # - name: Build Android Release
