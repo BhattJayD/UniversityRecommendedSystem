@@ -32,6 +32,8 @@ export default function SplashScreen({navigation}: any) {
           console.log(e);
         });
     }, 1500);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
