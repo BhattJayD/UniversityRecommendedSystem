@@ -20,6 +20,24 @@ jobs:
           name: ${{ github.event.pusher.name }}
         run: |
           echo $name; echo $email
+      - name:
+          SecureStack Application Composition Analysis
+          # You may pin to the exact commit or the version.
+          # uses: SecureStackCo/actions-code@c2c35840882d041474c505c1045da157025cd57e
+          # 95ff0719-1784-4a1d-88bb-9d0dc731af0b.3z7SUIpoF7vWVPatVLb4
+        uses: SecureStackCo/actions-code@v0.1.1
+        with:
+          # SecureStack API key - generate an API key at https://app.securestack.com
+          securestack_api_key: 95ff0719-1784-4a1d-88bb-9d0dc731af0b.3z7SUIpoF7vWVPatVLb4
+          # SecureStack Application ID - can be retrieved by accessing required application at https://app.securestack.com
+          securestack_app_id: aeb2b207-ba3c-4f38-80c1-ef5555ccf4da
+          # Severities lower than this value will be reported in the workflow console but will not cause an error for the action; value should be one of: critical | high | medium | low
+          severity: low
+          # Severities lower than this value will be reported in the workflow console but will not cause an error for the action; value should be one of: critical | high | medium | low
+          # language:
+          # # Optional flags for the bloodhound-cli code command - run bloodhound cli code --help for more details
+          # flags: # optional, default is
+
       # - name: Yarn install
       #   run: yarn
       # - name: Build Android Release
