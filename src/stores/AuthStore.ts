@@ -1,7 +1,7 @@
 import {makeAutoObservable} from 'mobx';
 
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
-import {showToast} from '../utils/Helper';
+import {isEmpty, showToast} from '../utils/Helper';
 
 class authStore {
   constructor() {
@@ -21,10 +21,7 @@ class authStore {
         auth()
           .signInWithEmailAndPassword(username, password)
           .then(async r => {
-            console.log(
-              'User signed in anonymously',
-              //   JSON.stringify(r, null, 3),
-            );
+            console.log('User signed in anonymously');
             showToast('Successful sign-in');
 
             resolve('success');
@@ -40,23 +37,40 @@ class authStore {
           });
       } catch (error) {
         console.log(error);
+        reject('error');
       }
     });
   };
 
-  onSignUp = (username: string, password: string) => {
-    auth()
-      .createUserWithEmailAndPassword(username, password)
-      .then(r => {
-        console.log('User signed in anonymously', r);
-      })
-      .catch(error => {
-        if (error.code === 'auth/operation-not-allowed') {
-          console.log('Enable anonymous in your firebase console.');
-        }
+  onSignUp = async (username: string, password: string) => {
+    if (isEmpty(username) || isEmpty(password)) {
+      showToast("username/password can't be empty");
+      return true;
+    }
+    return await new Promise(async (resolve, reject) => {
+      try {
+        auth()
+          .createUserWithEmailAndPassword(username, password)
+          .then(async r => {
+            console.log('User signed in anonymously');
+            showToast('Successful sign-in');
 
-        console.error(error);
-      });
+            resolve('success');
+            this.user = r;
+          })
+          .catch(error => {
+            if (error.code === 'auth/operation-not-allowed') {
+              console.log('Enable anonymous in your firebase console.');
+            }
+            showToast(error.code);
+            reject('error');
+            console.log(error);
+          });
+      } catch (error) {
+        console.log(error);
+        reject('error');
+      }
+    });
   };
 }
 const AuthStore = new authStore();
