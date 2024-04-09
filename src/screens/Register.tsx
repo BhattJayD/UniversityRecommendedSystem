@@ -150,5 +150,5 @@ const stylesheet = createStyleSheet(theme => ({
   headingTxt: {
     color: theme.colors.textColorHq,
   },
-  ipStyle: {color: theme.colors.background},
+  ipStyle: {color: theme.colors.textColorHq},
 }));

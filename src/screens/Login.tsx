@@ -160,5 +160,5 @@ const stylesheet = createStyleSheet(theme => ({
     borderWidth: 1,
     borderColor: theme.colors.textColorLq,
   },
-  ipStyle: {color: theme.colors.background},
+  ipStyle: {color: theme.colors.textColorHq},
 }));
