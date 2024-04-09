@@ -60,9 +60,11 @@ const Register = ({navigation}: any) => {
       </Animated.View>
 
       <Animated.View style={[styles.ipView, EmailViewValStyle]}>
-        <Text>Email</Text>
+        <Text style={styles.headingTxt}>Email</Text>
         <View style={styles.txtIpView}>
           <TextInput
+            style={styles.ipStyle}
+            placeholderTextColor={'#000'}
             value={username}
             onChangeText={e => {
               setUsername(e);
@@ -73,9 +75,11 @@ const Register = ({navigation}: any) => {
       </Animated.View>
 
       <Animated.View style={[styles.ipView, PasswdViewValStyle]}>
-        <Text>Password</Text>
+        <Text style={styles.headingTxt}>Password</Text>
         <View style={styles.txtIpView}>
           <TextInput
+            placeholderTextColor={'#000'}
+            style={styles.ipStyle}
             value={password}
             onChangeText={e => {
               setPassword(e);
@@ -143,4 +147,8 @@ const stylesheet = createStyleSheet(theme => ({
     borderWidth: 1,
     borderColor: theme.colors.textColorLq,
   },
+  headingTxt: {
+    color: theme.colors.textColorHq,
+  },
+  ipStyle: {color: theme.colors.background},
 }));
