@@ -1,4 +1,4 @@
-import {makeAutoObservable} from 'mobx';
+import {action, makeAutoObservable} from 'mobx';
 
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {
@@ -10,6 +10,8 @@ import {
 import {StorageConstants} from '../utils/StorageConstants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import firestore from '@react-native-firebase/firestore';
+
 class authStore {
   constructor() {
     makeAutoObservable(this);
@@ -17,9 +19,11 @@ class authStore {
   isLoggedin = false;
   user: FirebaseAuthTypes.UserCredential =
     {} as FirebaseAuthTypes.UserCredential;
+  userCount: number = 0;
 
   resetFiels() {
     this.user = {} as FirebaseAuthTypes.UserCredential;
+    this.userCount = 0;
   }
 
   onSignIn = async (username: string, password: string) => {
@@ -32,12 +36,21 @@ class authStore {
         auth()
           .signInWithEmailAndPassword(username, password)
           .then(async r => {
-            console.log('User signed in anonymously');
+            console.log(
+              'User signed in anonymously',
+              // JSON.stringify(r, null, 2),
+            );
             showToast('Successful sign-in');
             await storeToAsyncStorage(StorageConstants.Username, username);
             await storeToAsyncStorage(StorageConstants.Password, password);
-            resolve('success');
             this.user = r;
+            await this.saveUserInfoToFireStore(
+              this.user.user.uid,
+              12,
+              'M',
+              username,
+            );
+            resolve('success');
           })
           .catch(error => {
             if (error.code === 'auth/operation-not-allowed') {
@@ -131,6 +144,47 @@ class authStore {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  saveUserInfoToFireStore = async (
+    userId: string = '',
+    age: number = 0,
+    gender: string = '',
+    email: string = '',
+  ) => {
+    await firestore()
+      .collection('Users')
+      .doc(userId)
+      .set({
+        id: userId,
+        age,
+        gender,
+        email,
+      })
+      .then(r => {
+        console.log('User added!', r);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  getTotalUsers = async () => {
+    await firestore()
+      .collection('Users')
+      .get()
+      .then(
+        action(documentSnapshot => {
+          console.log('User exists: ', documentSnapshot.size);
+          this.userCount = documentSnapshot?.size;
+        }),
+      )
+      .catch(
+        action((e: any) => {
+          console.log(e, 'ee');
+          this.userCount = 0;
+        }),
+      );
   };
 }
 const AuthStore = new authStore();
