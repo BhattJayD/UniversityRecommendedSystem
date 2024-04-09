@@ -161,10 +161,14 @@ class authStore {
   };
 
   saveUserInfoToFireStore = async (
-    userId: string = '',
-    age: number = 0,
+    userId: string = this.user.user.uid ?? '',
+    age: string = '0',
     gender: string = '',
-    email: string = '',
+    email: string = this.user?.user?.email ?? '',
+    name: string,
+    countryCode: string,
+    number: string,
+    eduLevel: string,
   ) => {
     await firestore()
       .collection('Users')
@@ -174,6 +178,10 @@ class authStore {
         age,
         gender,
         email,
+        name,
+        countryCode,
+        number,
+        eduLevel,
       })
       .then(r => {
         console.log('User added!', r);
