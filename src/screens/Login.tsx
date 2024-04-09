@@ -60,7 +60,7 @@ const Login = ({navigation}: any) => {
       </Animated.View>
 
       <Animated.View style={[styles.ipView, EmailViewValStyle]}>
-        <Text>Email</Text>
+        <Text style={styles.headingTxt}>Email</Text>
         <View style={styles.txtIpView}>
           <TextInput
             value={username}
@@ -68,18 +68,22 @@ const Login = ({navigation}: any) => {
               setUsername(e);
             }}
             placeholder="Email"
+            placeholderTextColor={'#000'}
+            style={styles.ipStyle}
           />
         </View>
       </Animated.View>
 
       <Animated.View style={[styles.ipView, PasswdViewValStyle]}>
-        <Text>Password</Text>
+        <Text style={styles.headingTxt}>Password</Text>
         <View style={styles.txtIpView}>
           <TextInput
+            style={styles.ipStyle}
             value={password}
             onChangeText={e => {
               setPassword(e);
             }}
+            placeholderTextColor={'#000'}
             placeholder="Password"
           />
         </View>
@@ -89,11 +93,15 @@ const Login = ({navigation}: any) => {
         <Button
           title="Login"
           onPress={() => {
-            AuthStore.onSignIn(username, password).then(r => {
-              if (r === 'success') {
-                navigation.navigate('Register');
-              }
-            });
+            AuthStore.onSignIn(username, password)
+              .then(r => {
+                if (r === 'success') {
+                  navigation.replace('Home');
+                }
+              })
+              .catch(e => {
+                console.log(e);
+              });
           }}
         />
         <Text style={styles.accTxt}>
@@ -131,6 +139,9 @@ const stylesheet = createStyleSheet(theme => ({
     width: '95%',
     alignItems: 'center',
   },
+  headingTxt: {
+    color: theme.colors.textColorHq,
+  },
   registerTxt: {
     color: theme.colors.buttonColor,
   },
@@ -141,6 +152,7 @@ const stylesheet = createStyleSheet(theme => ({
   accTxt: {
     fontSize: 16,
     marginTop: 5,
+    color: theme.colors.textColorLq,
   },
   txtIpView: {
     height: 48,
@@ -148,4 +160,5 @@ const stylesheet = createStyleSheet(theme => ({
     borderWidth: 1,
     borderColor: theme.colors.textColorLq,
   },
+  ipStyle: {color: theme.colors.textColorHq},
 }));

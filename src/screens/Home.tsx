@@ -11,7 +11,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import AuthStore from '../stores/AuthStore';
 
-const AppInfo = ({navigation}: any) => {
+const Home = ({navigation}: any) => {
   const offsetTitleView = useSharedValue(0);
 
   const animatedStylesTitle = useAnimatedStyle(() => ({
@@ -97,17 +97,22 @@ const AppInfo = ({navigation}: any) => {
         </Animated.View>
       </View>
       <Animated.View style={[styles.bottomBtn, animatedStylesBtn]}>
-        <Button title="Continue" onPress={() => navigation.replace('Login')} />
+        <Button
+          title="Logout"
+          onPress={() => {
+            AuthStore.logout();
+            navigation.replace('AppInfo');
+          }}
+        />
         <Text style={styles.withUsTxt}>
-          {AuthStore.userCount ?? 0} aspirants already exploring there options
-          with us
+          100 aspirants already exploring there options with us
         </Text>
       </Animated.View>
     </View>
   );
 };
 
-export default AppInfo;
+export default Home;
 
 const stylesheet = createStyleSheet(theme => ({
   flex: {

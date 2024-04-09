@@ -4,6 +4,7 @@ export const lightTheme = {
     textColorLq: '#00000050',
     background: '#F5F7FB',
     buttonColor: '#841FFD',
+    buttonColorDisable: '#841FFD33',
     lightWhite: '#F9F9F9',
   },
   margins: {
@@ -17,9 +18,10 @@ export const lightTheme = {
 export const darkTheme = {
   colors: {
     textColorHq: '#ffffff',
-    textColorLq: '#00000050',
+    textColorLq: '#ffffff50',
     background: '#000000',
     buttonColor: '#841FFD',
+    buttonColorDisable: '#841FFD33',
     lightWhite: '#F9F9F9',
   },
   margins: {

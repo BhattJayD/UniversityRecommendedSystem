@@ -1,18 +1,23 @@
 import React from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Text, TouchableOpacity} from 'react-native';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 type ButtonType = {
   title: string;
   onPress: () => void;
+  disable?: boolean;
 };
 
-const Button = ({title, onPress}: ButtonType) => {
+const Button = ({title, onPress, disable = false}: ButtonType) => {
   const {styles} = useStyles(stylesheet);
 
   return (
     <TouchableOpacity
-      style={styles.mainView}
+      disabled={disable}
+      style={[
+        styles.mainView,
+        disable ? styles.disableView : styles.enableView,
+      ]}
       onPress={() => {
         try {
           onPress();
@@ -33,6 +38,12 @@ const stylesheet = createStyleSheet(theme => ({
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  disableView: {
+    backgroundColor: theme.colors.buttonColorDisable,
+  },
+  enableView: {
+    backgroundColor: theme.colors.buttonColor,
   },
   titleTxt: {
     fontSize: 16,
