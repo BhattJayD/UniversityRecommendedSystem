@@ -118,9 +118,18 @@ class authStore {
           // Ensure username and password are not null or undefined
           if (username && password) {
             await this.onSignIn(username, password)
-              .then(r => {
+              .then(async r => {
                 console.log(r);
-                resolve('Home');
+
+                const isExist = await this.checkUserExistOrNot(
+                  this.user.user.uid,
+                );
+                console.log(isExist);
+                if (!isEmpty(isExist)) {
+                  resolve('Home');
+                } else {
+                  resolve('UserPref');
+                }
               })
               .catch(r => {
                 console.log(r);

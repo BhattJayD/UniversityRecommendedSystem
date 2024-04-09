@@ -9,6 +9,7 @@ import Login from './screens/Login';
 import Register from './screens/Register';
 import Home from './screens/Home';
 import SplashScreen from './screens/SplashScreen';
+import UserPref from './screens/UserPref';
 
 const Stack = createStackNavigator();
 
@@ -45,7 +46,14 @@ function MyStack() {
         name="Register"
         component={Register}
       />
-
+      <Stack.Screen
+        options={{
+          headerShown: false,
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}
+        name="UserPref"
+        component={UserPref}
+      />
       <Stack.Screen
         options={{
           // headerShown: false,

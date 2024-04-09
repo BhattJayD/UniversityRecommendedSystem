@@ -100,6 +100,7 @@ const Login = ({navigation}: any) => {
                   setPassword('');
                   navigation.replace('Home');
                 } else if (r === 'setup') {
+                  navigation.replace('UserPref');
                   console.log('user pref');
                 }
               })
