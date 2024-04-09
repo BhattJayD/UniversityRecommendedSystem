@@ -96,6 +96,8 @@ const Login = ({navigation}: any) => {
             AuthStore.onSignIn(username, password)
               .then(r => {
                 if (r === 'success') {
+                  setUsername('');
+                  setPassword('');
                   navigation.replace('Home');
                 }
               })
