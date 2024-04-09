@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {Text, TextInput, View} from 'react-native';
 import Animated, {
   Easing,
@@ -9,6 +9,7 @@ import Animated, {
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import Button from '../components/Button';
 import AuthStore from '../stores/AuthStore';
+import {isEmpty, validateEmail} from '../utils/Helper';
 
 const Register = ({navigation}: any) => {
   const {styles} = useStyles(stylesheet);
@@ -17,6 +18,20 @@ const Register = ({navigation}: any) => {
 
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [cnfPassword, setCnfPassword] = useState<string>('');
+
+  const disable = useMemo(() => {
+    if (
+      isEmpty(username) ||
+      !validateEmail(username) ||
+      isEmpty(password) ||
+      isEmpty(cnfPassword)
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }, [username, password, cnfPassword]);
 
   const appName = useSharedValue(-1000);
 
@@ -89,8 +104,24 @@ const Register = ({navigation}: any) => {
         </View>
       </Animated.View>
 
+      <Animated.View style={[styles.ipView, PasswdViewValStyle]}>
+        <Text style={styles.headingTxt}>Confirm Password</Text>
+        <View style={styles.txtIpView}>
+          <TextInput
+            placeholderTextColor={'#000'}
+            style={styles.ipStyle}
+            value={cnfPassword}
+            onChangeText={e => {
+              setCnfPassword(e);
+            }}
+            placeholder="Confirm Password"
+          />
+        </View>
+      </Animated.View>
+
       <Animated.View style={[styles.bottomBtn, loginBtnStyle]}>
         <Button
+          disable={disable}
           title="Sing up"
           onPress={() => {
             AuthStore.onSignUp(username, password)
