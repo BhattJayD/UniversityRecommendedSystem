@@ -99,6 +99,8 @@ const Login = ({navigation}: any) => {
                   setUsername('');
                   setPassword('');
                   navigation.replace('Home');
+                } else if (r === 'setup') {
+                  console.log('user pref');
                 }
               })
               .catch(e => {

@@ -44,13 +44,19 @@ class authStore {
             await storeToAsyncStorage(StorageConstants.Username, username);
             await storeToAsyncStorage(StorageConstants.Password, password);
             this.user = r;
-            await this.saveUserInfoToFireStore(
-              this.user.user.uid,
-              12,
-              'M',
-              username,
-            );
-            resolve('success');
+            // await this.saveUserInfoToFireStore(
+            //   this.user.user.uid,
+            //   12,
+            //   'M',
+            //   username,
+            // );
+            const isExist = await this.checkUserExistOrNot(this.user.user.uid);
+            console.log(isExist);
+            if (!isEmpty(isExist)) {
+              resolve('success');
+            } else {
+              resolve('setup');
+            }
           })
           .catch(error => {
             if (error.code === 'auth/operation-not-allowed') {
@@ -77,8 +83,7 @@ class authStore {
         auth()
           .createUserWithEmailAndPassword(username, password)
           .then(async r => {
-            console.log('User signed in anonymously');
-            showToast('Successful sign-in');
+            // showToast('Successful sign-in');
             await storeToAsyncStorage(StorageConstants.Username, username);
             await storeToAsyncStorage(StorageConstants.Password, password);
 
@@ -169,13 +174,29 @@ class authStore {
       });
   };
 
+  checkUserExistOrNot = async (uid: string) => {
+    try {
+      const snapshot = await firestore()
+        .collection('Users')
+        .where('id', '==', uid)
+        .get();
+      if (snapshot.docs?.length > 0) {
+        return snapshot.docs?.[0].data();
+      }
+      console.log(snapshot.docs, 'snapshot');
+
+      return snapshot.docs;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   getTotalUsers = async () => {
     await firestore()
       .collection('Users')
       .get()
       .then(
         action(documentSnapshot => {
-          console.log('User exists: ', documentSnapshot.size);
           this.userCount = documentSnapshot?.size;
         }),
       )
