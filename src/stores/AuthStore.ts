@@ -191,7 +191,7 @@ class authStore {
       });
   };
 
-  checkUserExistOrNot = async (uid: string) => {
+  checkUserExistOrNot = async (uid: string = this.user.user.uid) => {
     try {
       const snapshot = await firestore()
         .collection('Users')
