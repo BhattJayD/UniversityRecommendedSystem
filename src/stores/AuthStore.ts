@@ -44,13 +44,19 @@ class authStore {
             await storeToAsyncStorage(StorageConstants.Username, username);
             await storeToAsyncStorage(StorageConstants.Password, password);
             this.user = r;
-            await this.saveUserInfoToFireStore(
-              this.user.user.uid,
-              12,
-              'M',
-              username,
-            );
-            resolve('success');
+            // await this.saveUserInfoToFireStore(
+            //   this.user.user.uid,
+            //   12,
+            //   'M',
+            //   username,
+            // );
+            const isExist = await this.checkUserExistOrNot(this.user.user.uid);
+            console.log(isExist);
+            if (!isEmpty(isExist)) {
+              resolve('success');
+            } else {
+              resolve('setup');
+            }
           })
           .catch(error => {
             if (error.code === 'auth/operation-not-allowed') {
@@ -77,8 +83,7 @@ class authStore {
         auth()
           .createUserWithEmailAndPassword(username, password)
           .then(async r => {
-            console.log('User signed in anonymously');
-            showToast('Successful sign-in');
+            // showToast('Successful sign-in');
             await storeToAsyncStorage(StorageConstants.Username, username);
             await storeToAsyncStorage(StorageConstants.Password, password);
 
@@ -113,9 +118,18 @@ class authStore {
           // Ensure username and password are not null or undefined
           if (username && password) {
             await this.onSignIn(username, password)
-              .then(r => {
+              .then(async r => {
                 console.log(r);
-                resolve('Home');
+
+                const isExist = await this.checkUserExistOrNot(
+                  this.user.user.uid,
+                );
+                console.log(isExist);
+                if (!isEmpty(isExist)) {
+                  resolve('Home');
+                } else {
+                  resolve('UserPref');
+                }
               })
               .catch(r => {
                 console.log(r);
@@ -147,10 +161,14 @@ class authStore {
   };
 
   saveUserInfoToFireStore = async (
-    userId: string = '',
-    age: number = 0,
+    userId: string = this.user.user.uid ?? '',
+    age: string = '0',
     gender: string = '',
-    email: string = '',
+    email: string = this.user?.user?.email ?? '',
+    name: string,
+    countryCode: string,
+    number: string,
+    eduLevel: string,
   ) => {
     await firestore()
       .collection('Users')
@@ -160,6 +178,10 @@ class authStore {
         age,
         gender,
         email,
+        name,
+        countryCode,
+        number,
+        eduLevel,
       })
       .then(r => {
         console.log('User added!', r);
@@ -169,13 +191,29 @@ class authStore {
       });
   };
 
+  checkUserExistOrNot = async (uid: string = this.user.user.uid) => {
+    try {
+      const snapshot = await firestore()
+        .collection('Users')
+        .where('id', '==', uid)
+        .get();
+      if (snapshot.docs?.length > 0) {
+        return snapshot.docs?.[0].data();
+      }
+      console.log(snapshot.docs, 'snapshot');
+
+      return snapshot.docs;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   getTotalUsers = async () => {
     await firestore()
       .collection('Users')
       .get()
       .then(
         action(documentSnapshot => {
-          console.log('User exists: ', documentSnapshot.size);
           this.userCount = documentSnapshot?.size;
         }),
       )
