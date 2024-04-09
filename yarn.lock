@@ -1537,7 +1537,7 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@react-native-async-storage/async-storage@^1.23.1":
+"@react-native-async-storage/async-storage@1.23.1":
   version "1.23.1"
   resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.23.1.tgz#cad3cd4fab7dacfe9838dce6ecb352f79150c883"
   integrity sha512-Qd2kQ3yi6Y3+AcUlrHxSLlnBvpdCEMVGFlVBneVOjaFaPU61g1huc38g339ysXspwY1QZA2aNhrk/KlHGO+ewA==
@@ -1709,6 +1709,11 @@
   integrity sha512-rZJLGBDimw+JT+RwRyqm/HtotJ19qoeyw/qTClnHeh8cRzvq6PAB4f+y52V/kFqzuZtly/xRNmKBdAIAq94/5Q==
   dependencies:
     plist "^3.1.0"
+
+"@react-native-firebase/firestore@^19.1.2":
+  version "19.1.2"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/firestore/-/firestore-19.1.2.tgz#085da50f4f551afd3fb94323fb50f29a2091273e"
+  integrity sha512-J/PUtAZY0mlPGYe7NAcdJ4eeWbWQeUCP4dueSHRr9CgQRyo4zq7WQQKVI9N3ZHSOgvX8RGmX8LDZSbUzwbVzfg==
 
 "@react-native-masked-view/masked-view@0.3.1":
   version "0.3.1"
@@ -4929,7 +4934,7 @@ loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.4.0:
   dependencies:
     js-tokens "^3.0.0 || ^4.0.0"
 
-lottie-react-native@^6.7.2:
+lottie-react-native@6.7.2:
   version "6.7.2"
   resolved "https://registry.yarnpkg.com/lottie-react-native/-/lottie-react-native-6.7.2.tgz#615fc16f88970fcbdf63699537f499b5937afe8a"
   integrity sha512-MZVx6N1EeO/EaSx8T44mJ0aHc5Mqee+xIfWwszni0oz8U2wlHdaWGjES44dHxaxgAp/0dRaFt3PkpZ6egTzcBg==
