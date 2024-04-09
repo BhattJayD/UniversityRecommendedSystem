@@ -97,7 +97,7 @@ const AppInfo = ({navigation}: any) => {
         </Animated.View>
       </View>
       <Animated.View style={[styles.bottomBtn, animatedStylesBtn]}>
-        <Button title="Continue" onPress={() => navigation.navigate('Login')} />
+        <Button title="Continue" onPress={() => navigation.replace('Login')} />
         <Text style={styles.withUsTxt}>
           {AuthStore.userCount ?? 0} aspirants already exploring there options
           with us
