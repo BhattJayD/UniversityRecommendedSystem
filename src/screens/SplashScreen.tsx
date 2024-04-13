@@ -22,8 +22,8 @@ export default function SplashScreen({navigation}: any) {
               navigation.replace('AppInfo');
               break;
 
-            case 'UserPref':
-              navigation.replace('UserPref');
+            case 'PersonalPref':
+              navigation.replace('PersonalPref');
               break;
 
             // deepcode ignore DuplicateCaseBody: handel default

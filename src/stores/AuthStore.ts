@@ -128,7 +128,7 @@ class authStore {
                 if (!isEmpty(isExist)) {
                   resolve('Home');
                 } else {
-                  resolve('UserPref');
+                  resolve('PersonalPref');
                 }
               })
               .catch(r => {
