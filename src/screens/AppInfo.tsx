@@ -10,6 +10,7 @@ import Animated, {
   Easing,
 } from 'react-native-reanimated';
 import AuthStore from '../stores/AuthStore';
+import MoveCircle from '../components/MoveCircle';
 
 const AppInfo = ({navigation}: any) => {
   const offsetTitleView = useSharedValue(0);
@@ -57,6 +58,11 @@ const AppInfo = ({navigation}: any) => {
   const {styles} = useStyles(stylesheet);
   return (
     <View style={styles.flex}>
+      <View style={styles.abs}>
+        {[1, 2, 3].map((e, i) => {
+          return <MoveCircle key={e + i.toString()} />;
+        })}
+      </View>
       <View style={styles.logoView}>
         <Image style={styles.logoImg} source={Iconpack.ICON} />
         <Image style={styles.logoImg} source={Iconpack.ICON} />
@@ -115,6 +121,7 @@ const stylesheet = createStyleSheet(theme => ({
     backgroundColor: theme.colors.background,
     padding: theme.margins.xl,
   },
+  abs: {position: 'absolute'},
   container: {
     alignItems: 'center',
   },
