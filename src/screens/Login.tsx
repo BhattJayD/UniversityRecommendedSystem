@@ -9,7 +9,7 @@ import Animated, {
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import Button from '../components/Button';
 import AuthStore from '../stores/AuthStore';
-
+import MoveCircle from '../components/MoveCircle';
 const Login = ({navigation}: any) => {
   const {styles} = useStyles(stylesheet);
 
@@ -52,13 +52,17 @@ const Login = ({navigation}: any) => {
   }, []);
   return (
     <View style={styles.flex}>
+      <View style={styles.abs}>
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((e, i) => {
+          return <MoveCircle key={e + i.toString()} />;
+        })}
+      </View>
       <Animated.View style={appNameStyle}>
         <Text style={styles.titleTxt}>
           <Text style={styles.uniTxt}>University</Text>
           <Text style={styles.finTxt}> Finder</Text>
         </Text>
       </Animated.View>
-
       <Animated.View style={[styles.ipView, EmailViewValStyle]}>
         <Text style={styles.headingTxt}>Email</Text>
         <View style={styles.txtIpView}>
@@ -73,7 +77,6 @@ const Login = ({navigation}: any) => {
           />
         </View>
       </Animated.View>
-
       <Animated.View style={[styles.ipView, PasswdViewValStyle]}>
         <Text style={styles.headingTxt}>Password</Text>
         <View style={styles.txtIpView}>
@@ -88,7 +91,6 @@ const Login = ({navigation}: any) => {
           />
         </View>
       </Animated.View>
-
       <Animated.View style={[styles.bottomBtn, loginBtnStyle]}>
         <Button
           title="Login"
@@ -134,6 +136,7 @@ const stylesheet = createStyleSheet(theme => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  abs: {position: 'absolute'},
   titleTxt: {
     fontSize: 26,
     fontWeight: 'bold',
