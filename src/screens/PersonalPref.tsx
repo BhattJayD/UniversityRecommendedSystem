@@ -14,7 +14,7 @@ import CalendarPicker from 'react-native-calendar-picker';
 import {CountryPicker} from 'react-native-country-codes-picker';
 import MoveCircle from '../components/MoveCircle';
 
-const UserPref = ({navigation}: any) => {
+const PersonalPref = ({navigation}: any) => {
   const {styles} = useStyles(stylesheet);
 
   const [name, setName] = useState<string>('');
@@ -183,7 +183,7 @@ const UserPref = ({navigation}: any) => {
   );
 };
 
-export default UserPref;
+export default PersonalPref;
 
 const stylesheet = createStyleSheet(theme => ({
   flex: {
