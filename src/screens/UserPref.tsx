@@ -12,6 +12,7 @@ import {isEmpty} from '../utils/Helper';
 import CalendarPicker from 'react-native-calendar-picker';
 
 import {CountryPicker} from 'react-native-country-codes-picker';
+import MoveCircle from '../components/MoveCircle';
 
 const UserPref = ({navigation}: any) => {
   const {styles} = useStyles(stylesheet);
@@ -48,6 +49,11 @@ const UserPref = ({navigation}: any) => {
 
   return (
     <View style={styles.flex}>
+      <View style={styles.abs}>
+        {[1, 2, 3, 4, 5, 6].map((e, i) => {
+          return <MoveCircle key={e + i.toString()} />;
+        })}
+      </View>
       <Text style={styles.headingTxt}>Personal Info</Text>
       <Animated.View style={[styles.ipView]}>
         <Text style={styles.titleTxt}>Full name</Text>
@@ -184,6 +190,9 @@ const stylesheet = createStyleSheet(theme => ({
     flex: 1,
     backgroundColor: theme.colors.background,
     padding: theme.margins.xl,
+  },
+  abs: {
+    position: 'absolute',
   },
   headingTxt: {
     fontSize: 16,

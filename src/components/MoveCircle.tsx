@@ -17,6 +17,8 @@ const MoveCircle = () => {
   const translateY = useSharedValue(0);
   const scale = useSharedValue(1);
 
+  const borderRadius = useSharedValue(360);
+
   const opacity = useSharedValue(0);
 
   const circleStyle = useAnimatedStyle(() => {
@@ -27,8 +29,10 @@ const MoveCircle = () => {
         {scale: scale.value},
       ],
       opacity: opacity.value,
+      borderRadius: borderRadius.value,
     };
   });
+
   const moveRandomly = () => {
     opacity.value = withTiming(1, {duration: 5000});
 
@@ -42,6 +46,8 @@ const MoveCircle = () => {
 
     // Generate a random scale between 0.5 and the maximum scale
     const newScale = 0.5 + Math.random();
+
+    const newBorderRadius = Math.random() * 50;
 
     translateX.value = withTiming(toX, {
       duration: 1500,
@@ -57,6 +63,11 @@ const MoveCircle = () => {
       duration: 1500,
       easing: Easing.inOut(Easing.cubic),
     });
+
+    borderRadius.value = withTiming(newBorderRadius, {
+      duration: 1500,
+      easing: Easing.cubic,
+    });
   };
 
   useEffect(() => {
@@ -65,6 +76,7 @@ const MoveCircle = () => {
     const intervalId = setInterval(moveRandomly, 1000); // Move every second
 
     return () => clearInterval(intervalId); // Clear interval on component unmount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <Animated.View style={[styles.circleView, circleStyle]} />;
@@ -74,7 +86,7 @@ const stylesheet = createStyleSheet(theme => ({
     backgroundColor: theme.colors.buttonColorDisable,
     height: 60,
     width: 60,
-    borderRadius: 360,
+    // borderRadius: 360,
   },
 }));
 
