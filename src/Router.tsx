@@ -10,6 +10,7 @@ import Register from './screens/Register';
 import Home from './screens/Home';
 import SplashScreen from './screens/SplashScreen';
 import PersonalPref from './screens/PersonalPref';
+import UserPref from './screens/UserPref';
 
 const Stack = createStackNavigator();
 
@@ -53,6 +54,14 @@ function MyStack() {
         }}
         name="PersonalPref"
         component={PersonalPref}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}
+        name="UserPref"
+        component={UserPref}
       />
       <Stack.Screen
         options={{
