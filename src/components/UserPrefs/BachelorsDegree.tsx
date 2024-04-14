@@ -108,7 +108,9 @@ const BachelorsDegree = observer(() => {
             <>
               <Text style={styles.whatPerTxt}>Percentage</Text>
               <TextInput
+                placeholder="Percentage in %"
                 value={percentage}
+                style={styles.ipStyle}
                 maxLength={3}
                 onChangeText={e => setPercentage(e)}
                 keyboardType="number-pad"
@@ -166,5 +168,10 @@ const stylesheet = createStyleSheet(theme => ({
     fontSize: 16,
     color: theme.colors.textColorHq,
     fontWeight: '500',
+  },
+  ipStyle: {
+    borderBottomWidth: 1,
+    marginBottom: 20,
+    borderBottomColor: theme.colors.buttonColor,
   },
 }));
