@@ -9,6 +9,7 @@ import {observer} from 'mobx-react';
 import DegreePicker from '../components/UserPrefs/DegreePicker';
 import BachelorsDegree from '../components/UserPrefs/BachelorsDegree';
 import BachelorsDegreeInPursue from '../components/UserPrefs/BachelorsDegreeInPursue';
+import BachelorsDegreeExtraExams from '../components/UserPrefs/BachelorsDegreeExtraExams';
 
 const UserPref = observer(({navigation}: any) => {
   const {styles} = useStyles(stylesheet);
@@ -32,8 +33,10 @@ const UserPref = observer(({navigation}: any) => {
       ) : AuthStore.selectedDegree === 'BACHELORS' &&
         isEmpty(AuthStore.DegreePercentage) ? (
         <BachelorsDegree />
-      ) : !isEmpty(AuthStore.DegreePercentage) ? (
+      ) : isEmpty(AuthStore.DegreePercentage) ? (
         <BachelorsDegreeInPursue />
+      ) : isEmpty(AuthStore.extraExamDetails) ? (
+        <BachelorsDegreeExtraExams />
       ) : (
         <></>
       )}

@@ -25,6 +25,7 @@ class authStore {
   selectedDegree: string = '';
   DegreePercentage: Record<string, string> = {};
   selectedField: string = '';
+  extraExamDetails: Record<string, string> = {};
 
   resetFiels() {
     this.user = {} as FirebaseAuthTypes.UserCredential;
