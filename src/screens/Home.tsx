@@ -48,6 +48,32 @@ const Home = observer(({navigation}: any) => {
       });
       data.current = response.data.data;
       console.log(data.current.reachData, 'fata');
+
+      const responseTrending = await axios.get(
+        'https://api.leverageedu.com/services/accommodation/v4/property/trending',
+        {
+          headers: {
+            'User-Agent':
+              'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/116.0',
+            'Accept-Language': 'en-US,en;q=0.5',
+            'Accept-Encoding': 'gzip, deflate, br',
+            Origin: 'https://leverageedu.com',
+            Connection: 'keep-alive',
+            Referer: 'https://leverageedu.com/',
+            'Sec-Fetch-Dest': 'empty',
+            'Sec-Fetch-Mode': 'cors',
+            'Sec-Fetch-Site': 'same-site',
+            TE: 'trailers',
+          },
+        },
+      );
+      console.log(
+        JSON.stringify(responseTrending.data.Data, null, 2),
+        'responseTrending.data',
+      );
+      runInAction(() => {
+        AuthStore.trendingCollegeData = responseTrending.data.Data;
+      });
     })();
   }, []);
 
@@ -70,6 +96,20 @@ const Home = observer(({navigation}: any) => {
           );
         }}
       /> */}
+
+      <Text style={styles.headingTxt}>Top colleges</Text>
+      <View>
+        <FlatList
+          data={AuthStore?.trendingCollegeData}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          renderItem={({item}) => {
+            console.log(item, 'oiii');
+
+            return <RenderSchoolItem item={item} />;
+          }}
+        />
+      </View>
 
       <Text style={styles.headingTxt}>Reach colleges</Text>
       <View>

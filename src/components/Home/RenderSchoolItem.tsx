@@ -7,6 +7,8 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
+import {isEmpty} from '../../utils/Helper';
+import Iconpack from '../../utils/Iconpack';
 
 const RenderSchoolItem = ({item, viewableItems}: any) => {
   const {styles} = useStyles(stylesheet);
@@ -38,16 +40,24 @@ const RenderSchoolItem = ({item, viewableItems}: any) => {
   return (
     <Animated.View style={[styles.itemView, itemAnimatedStyle]}>
       <Image
-        source={{
-          uri: 'https://assets.leverageedu.com/school-logo/' + item.school_logo,
-        }}
+        source={
+          isEmpty(item.school_logo)
+            ? Iconpack.ICON
+            : {
+                uri:
+                  'https://assets.leverageedu.com/school-logo/' +
+                  item.school_logo,
+              }
+        }
         style={styles.schoolLogo}
       />
       <View>
-        <Text style={styles.schoolTxt}>{item.school_name}</Text>
-        <Text style={styles.schoolTxt}>
-          Establish in Year {item.establish_year}
-        </Text>
+        <Text style={styles.schoolTxt}>{item?.school_name ?? item?.name}</Text>
+        {!isEmpty(item.establish_year) && (
+          <Text style={styles.schoolTxt}>
+            Establish in Year {item.establish_year}
+          </Text>
+        )}
       </View>
     </Animated.View>
   );

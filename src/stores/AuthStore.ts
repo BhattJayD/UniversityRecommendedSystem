@@ -52,6 +52,7 @@ class authStore {
   };
 
   colegeData = [];
+  trendingCollegeData = [];
 
   resetFiels() {
     this.user = {} as FirebaseAuthTypes.UserCredential;
