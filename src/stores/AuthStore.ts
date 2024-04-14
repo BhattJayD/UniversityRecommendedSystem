@@ -21,6 +21,9 @@ class authStore {
     {} as FirebaseAuthTypes.UserCredential;
   userCount: number = 0;
 
+  selectedCountry: number[] = [];
+  selectedDegree: string = '';
+
   resetFiels() {
     this.user = {} as FirebaseAuthTypes.UserCredential;
     this.userCount = 0;
@@ -124,9 +127,13 @@ class authStore {
                 const isExist = await this.checkUserExistOrNot(
                   this.user.user.uid,
                 );
+
+                const isPrefExist = await this.checkUserPrefExistOrNot();
                 console.log(isExist);
-                if (!isEmpty(isExist)) {
+                if (!isEmpty(isExist) && !isEmpty(isPrefExist)) {
                   resolve('Home');
+                } else if (isEmpty(isPrefExist)) {
+                  resolve('UserPref');
                 } else {
                   resolve('PersonalPref');
                 }
@@ -199,6 +206,24 @@ class authStore {
         .get();
       if (snapshot.docs?.length > 0) {
         return snapshot.docs?.[0].data();
+      }
+      console.log(snapshot.docs, 'snapshot');
+
+      return snapshot.docs;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  checkUserPrefExistOrNot = async (uid: string = this.user.user.uid) => {
+    try {
+      const snapshot = await firestore()
+        .collection('Users')
+        .where('id', '==', uid)
+        .get();
+      if (snapshot.docs?.length > 0) {
+        const data = snapshot.docs?.[0].data();
+        return data.userPref;
       }
       console.log(snapshot.docs, 'snapshot');
 

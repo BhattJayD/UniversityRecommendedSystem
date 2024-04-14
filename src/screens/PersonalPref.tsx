@@ -8,7 +8,7 @@ import {Picker} from '@react-native-picker/picker';
 import {isEmpty} from '../utils/Helper';
 
 // import {Calendar, LocaleConfig} from 'react-native-calendars';
-
+// @ts-ignore
 import CalendarPicker from 'react-native-calendar-picker';
 
 import {CountryPicker} from 'react-native-country-codes-picker';
@@ -30,7 +30,7 @@ const PersonalPref = ({navigation}: any) => {
   const [show, setShow] = useState<boolean>(false);
   const [countryCode, setCountryCode] = useState<string>('');
 
-  const onDateChange = e => {
+  const onDateChange = (e: any) => {
     console.log(age.toString(), new Date(age));
 
     const date = new Date(e);
@@ -176,7 +176,7 @@ const PersonalPref = ({navigation}: any) => {
             number,
             eduLevel,
           );
-          navigation.replace('Home');
+          navigation.replace('UserPref');
         }}
       />
     </View>
