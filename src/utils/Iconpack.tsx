@@ -6,4 +6,5 @@ export default {
   NEWZEALAND: require('../assets/dpnewzealand2.png'),
   USA: require('../assets/dpusa2.png'),
   EU: require('../assets/EU.png'),
+  BACK: require('../assets/back.png'),
 };
