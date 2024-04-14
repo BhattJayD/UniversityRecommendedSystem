@@ -11,7 +11,18 @@ import {StorageConstants} from '../utils/StorageConstants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import firestore from '@react-native-firebase/firestore';
-
+type prefType = {
+  country_ids: string[];
+  degree_type: string;
+  field_of_study_id: string[];
+  heighest_education_level_id: string;
+  heighest_education_level_percentage: string;
+  limit: number;
+  offSet: number;
+  page_uni: number;
+  search_program_tag: boolean;
+  university_type: string;
+};
 class authStore {
   constructor() {
     makeAutoObservable(this);
@@ -25,6 +36,22 @@ class authStore {
   selectedDegree: string = '';
   DegreePercentage: Record<string, string> = {};
   selectedField: string = '';
+  extraExamDetails: Record<string, string> = {};
+
+  storedPref: prefType = {
+    country_ids: [], // Assuming empty array for default
+    degree_type: '', // Assuming empty string for default
+    field_of_study_id: [], // Assuming empty array for default
+    heighest_education_level_id: '', // Assuming empty string for default
+    heighest_education_level_percentage: '', // Assuming empty string for default
+    limit: 0, // Assuming zero for default
+    offSet: 0, // Assuming zero for default
+    page_uni: 0, // Assuming zero for default
+    search_program_tag: false, // Assuming false for default
+    university_type: '', // Assuming empty string for default
+  };
+
+  colegeData = [];
 
   resetFiels() {
     this.user = {} as FirebaseAuthTypes.UserCredential;
@@ -56,9 +83,13 @@ class authStore {
             //   username,
             // );
             const isExist = await this.checkUserExistOrNot(this.user.user.uid);
+            const isPrefExist = await this.checkUserPrefExistOrNot();
+
             console.log(isExist);
-            if (!isEmpty(isExist)) {
+            if (!isEmpty(isExist) && !isEmpty(isPrefExist)) {
               resolve('success');
+            } else if (isEmpty(isPrefExist)) {
+              resolve('UserPref');
             } else {
               resolve('setup');
             }
@@ -134,10 +165,12 @@ class authStore {
                 console.log(isExist);
                 if (!isEmpty(isExist) && !isEmpty(isPrefExist)) {
                   resolve('Home');
+                } else if (isEmpty(isExist)) {
+                  resolve('PersonalPref');
                 } else if (isEmpty(isPrefExist)) {
                   resolve('UserPref');
                 } else {
-                  resolve('PersonalPref');
+                  resolve('Home');
                 }
               })
               .catch(r => {
@@ -200,6 +233,27 @@ class authStore {
       });
   };
 
+  saveUserPrefToFireStore = async (
+    userId: string = this.user.user.uid ?? '',
+    userPref: any,
+  ) => {
+    const userData = await this.checkUserExistOrNot();
+    // let a = userData;
+    // @ts-ignore
+    userData['userPref'] = userPref;
+
+    await firestore()
+      .collection('Users')
+      .doc(userId)
+      .set({...userData})
+      .then(r => {
+        console.log('User added!', r);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
   checkUserExistOrNot = async (uid: string = this.user.user.uid) => {
     try {
       const snapshot = await firestore()
@@ -209,7 +263,7 @@ class authStore {
       if (snapshot.docs?.length > 0) {
         return snapshot.docs?.[0].data();
       }
-      console.log(snapshot.docs, 'snapshot');
+      console.log('snapshot', snapshot.size, uid);
 
       return snapshot.docs;
     } catch (error) {

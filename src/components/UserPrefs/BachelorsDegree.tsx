@@ -94,7 +94,9 @@ const BachelorsDegree = observer(() => {
                 <>
                   <Text style={styles.whatPerTxt}>Percentage</Text>
                   <TextInput
+                    placeholder="Percentage in %"
                     value={percentage}
+                    style={styles.ipStyle}
                     maxLength={3}
                     onChangeText={e => setPercentage(e)}
                     keyboardType="number-pad"
