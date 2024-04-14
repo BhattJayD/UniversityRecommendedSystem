@@ -144,7 +144,7 @@ class authStore {
                 } else if (isEmpty(isPrefExist)) {
                   resolve('UserPref');
                 } else {
-                  resolve('PersonalPref');
+                  resolve('Home');
                 }
               })
               .catch(r => {
@@ -212,14 +212,14 @@ class authStore {
     userPref: any,
   ) => {
     const userData = await this.checkUserExistOrNot();
+    // let a = userData;
     // @ts-ignore
-    userData[userPref] = userPref;
+    userData['userPref'] = userPref;
+
     await firestore()
       .collection('Users')
       .doc(userId)
-      .set({
-        userData,
-      })
+      .set({...userData})
       .then(r => {
         console.log('User added!', r);
       })
@@ -237,7 +237,7 @@ class authStore {
       if (snapshot.docs?.length > 0) {
         return snapshot.docs?.[0].data();
       }
-      console.log(snapshot.docs, 'snapshot');
+      console.log('snapshot', snapshot.size, uid);
 
       return snapshot.docs;
     } catch (error) {
