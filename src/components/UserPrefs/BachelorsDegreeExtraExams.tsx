@@ -1,5 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, Text, TextInput, View} from 'react-native';
+import {
+  BackHandler,
+  FlatList,
+  Image,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import Animated, {
   useAnimatedStyle,
@@ -15,7 +23,7 @@ import MoveCircle from '../MoveCircle';
 import {observer} from 'mobx-react';
 import {isEmpty} from '../../utils/Helper';
 
-const BachelorsDegreeExtraExams = observer(() => {
+const BachelorsDegreeExtraExams = observer(({navigation}: any) => {
   const {styles} = useStyles(stylesheet);
 
   const [selectedExam, setSelectedExam] = useState<string>('');
@@ -40,6 +48,19 @@ const BachelorsDegreeExtraExams = observer(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const onBack = () => {
+    runInAction(() => {
+      AuthStore.selectedField = '';
+    });
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', onBack);
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', onBack);
+    };
+  }, []);
+
   return (
     <View style={styles.flex}>
       <View style={styles.abs}>
@@ -47,9 +68,12 @@ const BachelorsDegreeExtraExams = observer(() => {
           return <MoveCircle key={e + i.toString()} />;
         })}
       </View>
-      <Animated.View style={countryTxtStyle}>
+      <Animated.View style={[countryTxtStyle, styles.rowStyle]}>
+        <TouchableOpacity onPress={() => onBack()}>
+          <Image source={Iconpack.BACK} style={styles.backIcon} />
+        </TouchableOpacity>
         <Text style={styles.headingTxt}>
-          What is your highest education level?
+          Which english language test have you taken?
         </Text>
       </Animated.View>
       <View>
@@ -103,7 +127,9 @@ const BachelorsDegreeExtraExams = observer(() => {
               selectedExam,
             };
           });
+
           console.log(AuthStore.extraExamDetails);
+          navigation.replace('Home');
         }}
       />
     </View>
@@ -140,5 +166,10 @@ const stylesheet = createStyleSheet(theme => ({
     borderBottomWidth: 1,
     marginBottom: 20,
     borderBottomColor: theme.colors.buttonColor,
+  },
+  backIcon: {height: 24, width: 24},
+  rowStyle: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 }));

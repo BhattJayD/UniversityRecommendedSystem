@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, ScrollView, Text, View} from 'react-native';
+import {FlatList, Image, ScrollView, Text, View} from 'react-native';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import Button from '../components/Button';
 import AuthStore from '../stores/AuthStore';
@@ -47,10 +47,12 @@ const Home = observer(({navigation}: any) => {
 
   return (
     <View style={styles.flex}>
-      <Text style={styles.headingTxt}>dream colleges</Text>
+      {/* <Text style={styles.headingTxt}>dream colleges</Text>
       <FlatList
         data={AuthStore?.colegeData?.dreamData}
         renderItem={({item}) => {
+          console.log(JSON.stringify(item, null, 2));
+
           return (
             <View style={{borderWidth: 1, borderBlockColor: '#841FFD33'}}>
               <Text style={styles.headingTxt}>
@@ -59,23 +61,39 @@ const Home = observer(({navigation}: any) => {
             </View>
           );
         }}
-      />
+      /> */}
 
       <Text style={styles.headingTxt}>reachData colleges</Text>
       <FlatList
         data={AuthStore?.colegeData?.reachData}
         renderItem={({item}) => {
           return (
-            <View style={{borderWidth: 1, borderBlockColor: '#841FFD33'}}>
+            <View
+              style={{
+                borderWidth: 1,
+                borderBlockColor: '#841FFD33',
+                marginVertical: 10,
+              }}>
               <Text style={styles.headingTxt}>
                 School Name :- {item.school_name}
               </Text>
+              <Text style={styles.headingTxt}>
+                School Name :- {item.establish_year}
+              </Text>
+              <Image
+                source={{
+                  uri:
+                    'https://assets.leverageedu.com/school-logo/' +
+                    item.school_logo,
+                }}
+                style={{height: 44, width: 44}}
+              />
             </View>
           );
         }}
       />
 
-      <Text style={styles.headingTxt}>safeData colleges</Text>
+      {/* <Text style={styles.headingTxt}>safeData colleges</Text>
       <FlatList
         data={AuthStore?.colegeData?.safeData}
         renderItem={({item}) => {
@@ -87,7 +105,7 @@ const Home = observer(({navigation}: any) => {
             </View>
           );
         }}
-      />
+      /> */}
 
       <Button
         title="Logout"

@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, Text, View} from 'react-native';
+import {
+  BackHandler,
+  FlatList,
+  Image,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import Animated, {
   useAnimatedStyle,
@@ -114,6 +121,20 @@ const BachelorsDegreeInPursue = observer(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const onBack = () => {
+    runInAction(() => {
+      AuthStore.DegreePercentage = {};
+    });
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', onBack);
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', onBack);
+    };
+  }, []);
+
   return (
     <View style={styles.flex}>
       <View style={styles.abs}>
@@ -121,7 +142,10 @@ const BachelorsDegreeInPursue = observer(() => {
           return <MoveCircle key={e + i.toString()} />;
         })}
       </View>
-      <Animated.View style={countryTxtStyle}>
+      <Animated.View style={[countryTxtStyle, styles.rowStyle]}>
+        <TouchableOpacity onPress={() => onBack()}>
+          <Image source={Iconpack.BACK} style={styles.backIcon} />
+        </TouchableOpacity>
         <Text style={styles.headingTxt}>
           Which major do you want to pursue?
         </Text>
@@ -181,5 +205,10 @@ const stylesheet = createStyleSheet(theme => ({
     fontSize: 16,
     color: theme.colors.textColorHq,
     fontWeight: '500',
+  },
+  backIcon: {height: 24, width: 24},
+  rowStyle: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 }));

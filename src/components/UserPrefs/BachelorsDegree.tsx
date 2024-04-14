@@ -1,5 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, Text, TextInput, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  Text,
+  BackHandler,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import Animated, {
   useAnimatedStyle,
@@ -40,6 +48,19 @@ const BachelorsDegree = observer(() => {
     translateX.value = withTiming(0, {duration: 1500});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const onBack = () => {
+    runInAction(() => {
+      AuthStore.selectedDegree = '';
+    });
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', onBack);
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', onBack);
+    };
+  }, []);
 
   return (
     <View style={styles.flex}>
@@ -48,12 +69,20 @@ const BachelorsDegree = observer(() => {
           return <MoveCircle key={e + i.toString()} />;
         })}
       </View>
-      <Animated.View style={countryTxtStyle}>
+      <Animated.View style={[countryTxtStyle, styles.rowStyle]}>
+        <TouchableOpacity onPress={() => onBack()}>
+          <Image source={Iconpack.BACK} style={styles.backIcon} />
+        </TouchableOpacity>
         <Text style={styles.headingTxt}>
-          What is your highest education level?
+          {AuthStore.selectedDegree === 'MASTERS'
+            ? 'What is your expected or gained percentage?'
+            : 'What is your highest education level?'}
         </Text>
       </Animated.View>
-      <View>
+      <View
+        style={{
+          display: AuthStore.selectedDegree === 'MASTERS' ? 'none' : 'flex',
+        }}>
         <FlatList
           data={COUNTRY_Data}
           renderItem={({item}) => {
@@ -121,14 +150,31 @@ const BachelorsDegree = observer(() => {
           )}
         </>
       )}
+      {AuthStore.selectedDegree === 'MASTERS' && (
+        <>
+          <Text style={styles.whatPerTxt}>Percentage</Text>
+          <TextInput
+            placeholder="Percentage in %"
+            value={percentage}
+            style={styles.ipStyle}
+            maxLength={3}
+            onChangeText={e => setPercentage(e)}
+            keyboardType="number-pad"
+          />
+        </>
+      )}
       <Button
         title="Submit"
         disable={
-          (selectedDegree === '12' && selectedPicker === 'Select') ||
-          isEmpty(selectedDegree) ||
-          isEmpty(percentage) ||
-          parseInt(percentage) > 100 ||
-          parseInt(percentage) < 9
+          AuthStore.selectedDegree === 'MASTERS'
+            ? isEmpty(percentage) ||
+              parseInt(percentage) > 100 ||
+              parseInt(percentage) < 9
+            : (selectedDegree === '12' && selectedPicker === 'Select') ||
+              isEmpty(selectedDegree) ||
+              isEmpty(percentage) ||
+              parseInt(percentage) > 100 ||
+              parseInt(percentage) < 9
         }
         onPress={() => {
           runInAction(() => {
@@ -175,5 +221,10 @@ const stylesheet = createStyleSheet(theme => ({
     borderBottomWidth: 1,
     marginBottom: 20,
     borderBottomColor: theme.colors.buttonColor,
+  },
+  backIcon: {height: 24, width: 24},
+  rowStyle: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 }));

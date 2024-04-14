@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, Text, View} from 'react-native';
+import {
+  BackHandler,
+  FlatList,
+  Image,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import Animated, {
   useAnimatedStyle,
@@ -22,7 +29,7 @@ const DegreePicker = observer(() => {
   const COUNTRY_Data = [
     {id: 1, name: 'Bachelors', url: Iconpack.ICON, key: 'BACHELORS'},
     {id: 2, name: 'Masters', url: Iconpack.ICON, key: 'MASTERS'},
-    {id: 3, name: 'MBA', url: Iconpack.ICON, key: 'MBA'},
+    // {id: 3, name: 'MBA', url: Iconpack.ICON, key: 'MBA'},
   ];
 
   const translateX = useSharedValue(-1000);
@@ -38,6 +45,20 @@ const DegreePicker = observer(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const onBack = () => {
+    runInAction(() => {
+      AuthStore.selectedCountry = [];
+    });
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', onBack);
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', onBack);
+    };
+  }, []);
+
   return (
     <View style={styles.flex}>
       <View style={styles.abs}>
@@ -45,7 +66,10 @@ const DegreePicker = observer(() => {
           return <MoveCircle key={e + i.toString()} />;
         })}
       </View>
-      <Animated.View style={countryTxtStyle}>
+      <Animated.View style={[styles.rowStyle, countryTxtStyle]}>
+        <TouchableOpacity onPress={onBack}>
+          <Image source={Iconpack.BACK} style={styles.backIcon} />
+        </TouchableOpacity>
         <Text style={styles.headingTxt}>
           Which degree do you wish to pursue?
         </Text>
@@ -92,5 +116,10 @@ const stylesheet = createStyleSheet(theme => ({
     fontSize: 24,
     color: theme.colors.textColorHq,
     fontWeight: '600',
+  },
+  backIcon: {height: 24, width: 24},
+  rowStyle: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 }));
