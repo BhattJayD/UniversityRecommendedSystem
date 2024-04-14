@@ -84,7 +84,19 @@ const BachelorsDegreeExtraExams = observer(() => {
       <Button
         title="Submit"
         disable={isEmpty(score) || isEmpty(selectedExam)}
-        onPress={() => {
+        onPress={async () => {
+          await AuthStore.saveUserPrefToFireStore(AuthStore.user.user.uid, {
+            offSet: 0,
+            limit: 0,
+            search_program_tag: false,
+            university_type: '',
+            page_uni: 1,
+            country_ids: AuthStore.selectedCountry,
+            heighest_education_level_percentage: score,
+            heighest_education_level_id: '27',
+            degree_type: AuthStore.selectedDegree,
+            field_of_study_id: [AuthStore.selectedField],
+          });
           runInAction(() => {
             AuthStore.extraExamDetails = {
               score,

@@ -139,6 +139,8 @@ class authStore {
                 console.log(isExist);
                 if (!isEmpty(isExist) && !isEmpty(isPrefExist)) {
                   resolve('Home');
+                } else if (isEmpty(isExist)) {
+                  resolve('PersonalPref');
                 } else if (isEmpty(isPrefExist)) {
                   resolve('UserPref');
                 } else {
@@ -196,6 +198,27 @@ class authStore {
         countryCode,
         number,
         eduLevel,
+      })
+      .then(r => {
+        console.log('User added!', r);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  saveUserPrefToFireStore = async (
+    userId: string = this.user.user.uid ?? '',
+    userPref: any,
+  ) => {
+    const userData = await this.checkUserExistOrNot();
+    // @ts-ignore
+    userData[userPref] = userPref;
+    await firestore()
+      .collection('Users')
+      .doc(userId)
+      .set({
+        userData,
       })
       .then(r => {
         console.log('User added!', r);
