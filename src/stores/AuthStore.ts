@@ -305,6 +305,24 @@ class authStore {
         }),
       );
   };
+
+  removeUserPref = async (userId: string = this.user.user.uid ?? '') => {
+    const userData = await this.checkUserExistOrNot();
+    // let a = userData;
+    // @ts-ignore
+    delete userData['userPref'];
+
+    await firestore()
+      .collection('Users')
+      .doc(userId)
+      .set({...userData})
+      .then(r => {
+        console.log('User added!', r);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
 }
 const AuthStore = new authStore();
 export default AuthStore;

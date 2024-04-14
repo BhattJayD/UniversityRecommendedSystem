@@ -1,14 +1,19 @@
-import React, {useEffect, useState} from 'react';
-import {FlatList, Image, ScrollView, Text, View} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {FlatList, Image, ScrollView, Text, View, ViewToken} from 'react-native';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import Button from '../components/Button';
 import AuthStore from '../stores/AuthStore';
 import axios from 'axios';
-import {runInAction} from 'mobx';
+import {runInAction, toJS} from 'mobx';
 import {observer} from 'mobx-react';
+import RenderSchoolItem from '../components/Home/RenderSchoolItem';
+import {useSharedValue} from 'react-native-reanimated';
+import {isEmpty} from '../utils/Helper';
 
 const Home = observer(({navigation}: any) => {
   const {styles} = useStyles(stylesheet);
+  // const [data, setData] = useState([]);
+  const data = useRef(null);
   useEffect(() => {
     (async () => {
       let userData = await AuthStore.checkUserExistOrNot(
@@ -37,13 +42,16 @@ const Home = observer(({navigation}: any) => {
           },
         },
       );
-      console.log(response.data.data);
+      // console.log(response.data.data);
       runInAction(() => {
         AuthStore.colegeData = response.data.data;
       });
-      // setData(userData);
+      data.current = response.data.data;
+      console.log(data.current.reachData, 'fata');
     })();
   }, []);
+
+  const viewableItemsReach = useSharedValue<ViewToken[]>([]);
 
   return (
     <View style={styles.flex}>
@@ -63,57 +71,60 @@ const Home = observer(({navigation}: any) => {
         }}
       /> */}
 
-      <Text style={styles.headingTxt}>reachData colleges</Text>
-      <FlatList
-        data={AuthStore?.colegeData?.reachData}
-        renderItem={({item}) => {
-          return (
-            <View
-              style={{
-                borderWidth: 1,
-                borderBlockColor: '#841FFD33',
-                marginVertical: 10,
-              }}>
-              <Text style={styles.headingTxt}>
-                School Name :- {item.school_name}
-              </Text>
-              <Text style={styles.headingTxt}>
-                School Name :- {item.establish_year}
-              </Text>
-              <Image
-                source={{
-                  uri:
-                    'https://assets.leverageedu.com/school-logo/' +
-                    item.school_logo,
-                }}
-                style={{height: 44, width: 44}}
-              />
-            </View>
-          );
-        }}
-      />
+      <Text style={styles.headingTxt}>Reach colleges</Text>
+      <View>
+        <FlatList
+          data={AuthStore?.colegeData?.reachData}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          renderItem={({item}) => {
+            return <RenderSchoolItem item={item} />;
+          }}
+        />
+      </View>
 
-      {/* <Text style={styles.headingTxt}>safeData colleges</Text>
-      <FlatList
-        data={AuthStore?.colegeData?.safeData}
-        renderItem={({item}) => {
-          return (
-            <View style={{borderWidth: 1, borderBlockColor: '#841FFD33'}}>
-              <Text style={styles.headingTxt}>
-                School Name :- {item.school_name}
-              </Text>
-            </View>
-          );
-        }}
-      /> */}
+      <Text style={styles.headingTxt}>Safe colleges</Text>
+      <View>
+        <FlatList
+          data={AuthStore?.colegeData?.safeData}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          renderItem={({item}) => {
+            return <RenderSchoolItem item={item} />;
+          }}
+        />
+      </View>
+      <Text style={styles.headingTxt}>Dream colleges</Text>
+      <View>
+        <FlatList
+          data={AuthStore?.colegeData?.dreamData}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          renderItem={({item}) => {
+            return <RenderSchoolItem item={item} />;
+          }}
+        />
+      </View>
 
       <Button
-        title="Logout"
+        title="Update your college prefrence"
         onPress={() => {
-          AuthStore.logout();
-          navigation.replace('AppInfo');
+          // AuthStore.logout();
+          // navigation.replace('AppInfo');
+          AuthStore.removeUserPref(AuthStore.user.user.uid);
+          navigation.replace('UserPref');
         }}
       />
+
+      <View style={{marginTop: 30}}>
+        <Button
+          title="Logout"
+          onPress={() => {
+            AuthStore.logout();
+            navigation.replace('AppInfo');
+          }}
+        />
+      </View>
     </View>
   );
 });
@@ -128,5 +139,21 @@ const stylesheet = createStyleSheet(theme => ({
   },
   headingTxt: {
     color: theme.colors.textColorHq,
+  },
+  itemView: {
+    borderWidth: 1,
+    borderBlockColor: theme.colors.buttonColorDisable,
+    marginRight: 10,
+    borderRadius: 10,
+    padding: 20,
+    flexDirection: 'row',
+    marginVertical: 20,
+    backgroundColor: theme.colors.buttonColorDisable,
+  },
+  schoolLogo: {height: 44, width: 44, marginRight: 10},
+  schoolTxt: {
+    color: theme.colors.textColorHq,
+    fontSize: 15,
+    fontWeight: '500',
   },
 }));
