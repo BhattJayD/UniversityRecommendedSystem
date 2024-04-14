@@ -1,54 +1,94 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View} from 'react-native';
+import {FlatList, ScrollView, Text, View} from 'react-native';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import Button from '../components/Button';
 import AuthStore from '../stores/AuthStore';
+import axios from 'axios';
+import {runInAction} from 'mobx';
+import {observer} from 'mobx-react';
 
-const Home = ({navigation}: any) => {
+const Home = observer(({navigation}: any) => {
   const {styles} = useStyles(stylesheet);
-  type userType = {
-    age: string;
-    countryCode: string;
-    eduLevel: string;
-    email: string;
-    gender: string;
-    id: string;
-    name: string;
-    number: string;
-  };
-  const [data, setData] = useState<userType>({
-    age: '',
-    countryCode: '',
-    eduLevel: '',
-    email: '',
-    gender: '',
-    id: '',
-    name: '',
-    number: '',
-  });
   useEffect(() => {
     (async () => {
       let userData = await AuthStore.checkUserExistOrNot(
         AuthStore.user.user.uid,
       );
-      console.log(data, 'dasdasdas');
-      setData(userData);
+      // @ts-ignore
+      AuthStore.storedPref = userData.userPref;
+      console.log(AuthStore.storedPref, 'AuthStore.storedPref');
+
+      const response = await axios.post(
+        'https://api.leverageedu.com/services/ip/university/course/finder/universities/v3',
+        AuthStore.storedPref,
+        {
+          headers: {
+            'User-Agent':
+              'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/116.0',
+            'Accept-Language': 'en-US,en;q=0.5',
+            'Accept-Encoding': 'gzip, deflate, br',
+            Origin: 'https://leverageedu.com',
+            Connection: 'keep-alive',
+            Referer: 'https://leverageedu.com/',
+            'Sec-Fetch-Dest': 'empty',
+            'Sec-Fetch-Mode': 'cors',
+            'Sec-Fetch-Site': 'same-site',
+            TE: 'trailers',
+          },
+        },
+      );
+      console.log(response.data.data);
+      runInAction(() => {
+        AuthStore.colegeData = response.data.data;
+      });
+      // setData(userData);
     })();
   }, []);
 
   return (
     <View style={styles.flex}>
-      <View>
-        <Text style={styles.headingTxt}>name {data.name}</Text>
-        <Text style={styles.headingTxt}>DOB {data.age}</Text>
-        <Text style={styles.headingTxt}>Country {data.countryCode}</Text>
-        <Text style={styles.headingTxt}>
-          Highest education level {data.eduLevel}
-        </Text>
-        <Text style={styles.headingTxt}>Email {data.email}</Text>
-        <Text style={styles.headingTxt}>Gender {data.gender}</Text>
-        <Text style={styles.headingTxt}>Number {data.number}</Text>
-      </View>
+      <Text style={styles.headingTxt}>dream colleges</Text>
+      <FlatList
+        data={AuthStore?.colegeData?.dreamData}
+        renderItem={({item}) => {
+          return (
+            <View style={{borderWidth: 1, borderBlockColor: '#841FFD33'}}>
+              <Text style={styles.headingTxt}>
+                School Name :- {item.school_name}
+              </Text>
+            </View>
+          );
+        }}
+      />
+
+      <Text style={styles.headingTxt}>reachData colleges</Text>
+      <FlatList
+        data={AuthStore?.colegeData?.reachData}
+        renderItem={({item}) => {
+          return (
+            <View style={{borderWidth: 1, borderBlockColor: '#841FFD33'}}>
+              <Text style={styles.headingTxt}>
+                School Name :- {item.school_name}
+              </Text>
+            </View>
+          );
+        }}
+      />
+
+      <Text style={styles.headingTxt}>safeData colleges</Text>
+      <FlatList
+        data={AuthStore?.colegeData?.safeData}
+        renderItem={({item}) => {
+          return (
+            <View style={{borderWidth: 1, borderBlockColor: '#841FFD33'}}>
+              <Text style={styles.headingTxt}>
+                School Name :- {item.school_name}
+              </Text>
+            </View>
+          );
+        }}
+      />
+
       <Button
         title="Logout"
         onPress={() => {
@@ -58,7 +98,7 @@ const Home = ({navigation}: any) => {
       />
     </View>
   );
-};
+});
 
 export default Home;
 

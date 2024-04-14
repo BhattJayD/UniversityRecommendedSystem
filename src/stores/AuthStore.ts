@@ -11,7 +11,18 @@ import {StorageConstants} from '../utils/StorageConstants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import firestore from '@react-native-firebase/firestore';
-
+type prefType = {
+  country_ids: string[];
+  degree_type: string;
+  field_of_study_id: string[];
+  heighest_education_level_id: string;
+  heighest_education_level_percentage: string;
+  limit: number;
+  offSet: number;
+  page_uni: number;
+  search_program_tag: boolean;
+  university_type: string;
+};
 class authStore {
   constructor() {
     makeAutoObservable(this);
@@ -26,6 +37,21 @@ class authStore {
   DegreePercentage: Record<string, string> = {};
   selectedField: string = '';
   extraExamDetails: Record<string, string> = {};
+
+  storedPref: prefType = {
+    country_ids: [], // Assuming empty array for default
+    degree_type: '', // Assuming empty string for default
+    field_of_study_id: [], // Assuming empty array for default
+    heighest_education_level_id: '', // Assuming empty string for default
+    heighest_education_level_percentage: '', // Assuming empty string for default
+    limit: 0, // Assuming zero for default
+    offSet: 0, // Assuming zero for default
+    page_uni: 0, // Assuming zero for default
+    search_program_tag: false, // Assuming false for default
+    university_type: '', // Assuming empty string for default
+  };
+
+  colegeData = [];
 
   resetFiels() {
     this.user = {} as FirebaseAuthTypes.UserCredential;
