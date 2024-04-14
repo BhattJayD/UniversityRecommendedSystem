@@ -23,6 +23,7 @@ class authStore {
 
   selectedCountry: number[] = [];
   selectedDegree: string = '';
+  DegreePercentage: Record<string, string> = {};
 
   resetFiels() {
     this.user = {} as FirebaseAuthTypes.UserCredential;

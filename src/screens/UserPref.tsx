@@ -7,6 +7,7 @@ import CountryPicker from '../components/UserPrefs/CountryPicker';
 import {isEmpty} from '../utils/Helper';
 import {observer} from 'mobx-react';
 import DegreePicker from '../components/UserPrefs/DegreePicker';
+import BachelorsDegree from '../components/UserPrefs/BachelorsDegree';
 
 const UserPref = observer(({navigation}: any) => {
   const {styles} = useStyles(stylesheet);
@@ -27,6 +28,8 @@ const UserPref = observer(({navigation}: any) => {
         <CountryPicker />
       ) : AuthStore.selectedDegree === '' ? (
         <DegreePicker />
+      ) : AuthStore.selectedDegree === 'BACHELORS' ? (
+        <BachelorsDegree />
       ) : (
         <></>
       )}
