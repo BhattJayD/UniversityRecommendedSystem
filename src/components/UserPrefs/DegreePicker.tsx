@@ -47,7 +47,7 @@ const DegreePicker = observer(() => {
       </View>
       <Animated.View style={countryTxtStyle}>
         <Text style={styles.headingTxt}>
-          Which country do you wish to pursue your education in?
+          Which degree do you wish to pursue?
         </Text>
       </Animated.View>
       <FlatList
