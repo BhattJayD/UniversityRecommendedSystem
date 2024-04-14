@@ -22,6 +22,9 @@ export default function SplashScreen({navigation}: any) {
               navigation.replace('AppInfo');
               break;
 
+            case 'PersonalPref':
+              navigation.replace('PersonalPref');
+              break;
             case 'UserPref':
               navigation.replace('UserPref');
               break;

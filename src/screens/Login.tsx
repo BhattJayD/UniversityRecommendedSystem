@@ -102,7 +102,7 @@ const Login = ({navigation}: any) => {
                   setPassword('');
                   navigation.replace('Home');
                 } else if (r === 'setup') {
-                  navigation.replace('UserPref');
+                  navigation.replace('PersonalPref');
                   console.log('user pref');
                 }
               })

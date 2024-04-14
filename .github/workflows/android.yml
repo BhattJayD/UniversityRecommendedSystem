@@ -14,6 +14,10 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 17
+      - name: Set up Node.js (LTS Version)
+        uses: actions/setup-node@v2
+        with:
+          node-version: 'lts/*' # This will use the latest LTS version of Node.js
       - name: Yarn install
         run: yarn
       - name: Build Android Release
