@@ -137,7 +137,7 @@ const PersonalPref = ({navigation}: any) => {
           />
         </View>
       </Animated.View>
-      <Animated.View style={[styles.ipView]}>
+      {/* <Animated.View style={[styles.ipView]}>
         <Text style={styles.titleTxt}>Education level</Text>
         <View style={styles.txtIpView}>
           <Picker
@@ -154,14 +154,11 @@ const PersonalPref = ({navigation}: any) => {
             <Picker.Item label="MBA" value="MBA" />
           </Picker>
         </View>
-      </Animated.View>
+      </Animated.View> */}
       <Button
         title="Submit"
         disable={
-          isEmpty(name) ||
-          isEmpty(number) ||
-          eduLevel === 'Select' ||
-          selectedGender === 'Select'
+          isEmpty(name) || isEmpty(number) || selectedGender === 'Select'
         }
         onPress={() => {
           console.log(AuthStore.user);

@@ -30,13 +30,14 @@ const UserPref = observer(({navigation}: any) => {
         <CountryPicker />
       ) : AuthStore.selectedDegree === '' ? (
         <DegreePicker />
-      ) : AuthStore.selectedDegree === 'BACHELORS' &&
+      ) : (AuthStore.selectedDegree === 'BACHELORS' ||
+          AuthStore.selectedDegree === 'MASTERS') &&
         isEmpty(AuthStore.DegreePercentage) ? (
         <BachelorsDegree />
       ) : isEmpty(AuthStore.selectedField) ? (
         <BachelorsDegreeInPursue />
       ) : isEmpty(AuthStore.extraExamDetails) ? (
-        <BachelorsDegreeExtraExams />
+        <BachelorsDegreeExtraExams navigation={navigation} />
       ) : (
         <></>
       )}
