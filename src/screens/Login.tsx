@@ -101,6 +101,9 @@ const Login = ({navigation}: any) => {
                   setUsername('');
                   setPassword('');
                   navigation.replace('Home');
+                } else if (r === 'UserPref') {
+                  navigation.replace('UserPref');
+                  console.log('user pref');
                 } else if (r === 'setup') {
                   navigation.replace('PersonalPref');
                   console.log('user pref');

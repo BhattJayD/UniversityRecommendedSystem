@@ -56,9 +56,13 @@ class authStore {
             //   username,
             // );
             const isExist = await this.checkUserExistOrNot(this.user.user.uid);
+            const isPrefExist = await this.checkUserPrefExistOrNot();
+
             console.log(isExist);
-            if (!isEmpty(isExist)) {
+            if (!isEmpty(isExist) && !isEmpty(isPrefExist)) {
               resolve('success');
+            } else if (isEmpty(isPrefExist)) {
+              resolve('UserPref');
             } else {
               resolve('setup');
             }
