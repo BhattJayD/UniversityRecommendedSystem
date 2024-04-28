@@ -90,6 +90,13 @@ const Home = observer(({navigation}: any) => {
   }, []);
 
   const viewableItemsReach = useSharedValue<ViewToken[]>([]);
+  function shuffleArray(array: any) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array.slice(0, 5);
+  }
 
   return (
     <ScrollView>
@@ -109,20 +116,28 @@ const Home = observer(({navigation}: any) => {
           );
         }}
       /> */}
-        <Text style={styles.headingTxt}>
-          {isEmpty(AuthStore?.trendingCollegeData) ? '' : 'Top colleges'}
-        </Text>
+        <Text style={styles.headingTxt}>Top colleges</Text>
         <View>
-          <FlatList
-            data={AuthStore?.trendingCollegeData}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            renderItem={({item}) => {
-              console.log(item, 'oiii');
+          {!isEmpty(AuthStore?.colegeData) && (
+            <FlatList
+              data={
+                !isEmpty(AuthStore?.trendingCollegeData)
+                  ? AuthStore?.trendingCollegeData
+                  : shuffleArray([
+                      ...AuthStore?.colegeData?.reachData,
+                      ...AuthStore?.colegeData?.safeData,
+                      ...AuthStore?.colegeData?.dreamData,
+                    ])
+              }
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              renderItem={({item}) => {
+                console.log(item, 'oiii');
 
-              return <RenderSchoolItem item={item} />;
-            }}
-          />
+                return <RenderSchoolItem item={item} />;
+              }}
+            />
+          )}
         </View>
 
         <Text style={styles.headingTxt}>

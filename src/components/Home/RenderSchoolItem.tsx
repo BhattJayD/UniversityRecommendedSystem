@@ -12,8 +12,6 @@ import Iconpack from '../../utils/Iconpack';
 import Button from '../Button';
 
 const RenderSchoolItem = ({item, viewableItems}: any) => {
-  console.log(JSON.stringify(item, null, 2));
-
   const {styles} = useStyles(stylesheet);
 
   // Randomize initial positions and animation properties
