@@ -43,6 +43,8 @@ const App = () => {
     //   );
     //   console.log(JSON.stringify(response.data, null, 2));
     // }, 1000);
+
+    AuthStore.getFailSafeData();
   }, []);
 
   return (
