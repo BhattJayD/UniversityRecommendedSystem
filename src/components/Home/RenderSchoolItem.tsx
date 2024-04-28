@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Image, Text, View} from 'react-native';
+import {Image, Linking, Text, View} from 'react-native';
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -9,8 +9,11 @@ import Animated, {
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import {isEmpty} from '../../utils/Helper';
 import Iconpack from '../../utils/Iconpack';
+import Button from '../Button';
 
 const RenderSchoolItem = ({item, viewableItems}: any) => {
+  console.log(JSON.stringify(item, null, 2));
+
   const {styles} = useStyles(stylesheet);
 
   // Randomize initial positions and animation properties
@@ -39,25 +42,62 @@ const RenderSchoolItem = ({item, viewableItems}: any) => {
 
   return (
     <Animated.View style={[styles.itemView, itemAnimatedStyle]}>
-      <Image
-        source={
-          isEmpty(item.school_logo)
-            ? Iconpack.ICON
-            : {
-                uri:
-                  'https://assets.leverageedu.com/school-logo/' +
-                  item.school_logo,
-              }
-        }
-        style={styles.schoolLogo}
-      />
-      <View>
-        <Text style={styles.schoolTxt}>{item?.school_name ?? item?.name}</Text>
-        {!isEmpty(item.establish_year) && (
+      <View style={styles.row}>
+        <Image
+          source={
+            isEmpty(item.school_logo)
+              ? Iconpack.ICON
+              : {
+                  uri:
+                    'https://assets.leverageedu.com/school-logo/' +
+                    item.school_logo,
+                }
+          }
+          style={styles.schoolLogo}
+        />
+        <View>
           <Text style={styles.schoolTxt}>
-            Establish in Year {item.establish_year}
+            {item?.school_name ?? item?.name}
           </Text>
-        )}
+          {!isEmpty(item?.establish_year) && (
+            <Text style={styles.schoolTxt}>
+              Establish in Year {item.establish_year}
+            </Text>
+          )}
+        </View>
+      </View>
+      <View style={styles.rowCenterBW}>
+        <Text style={styles.schoolTxt}>Total Courses</Text>
+        <Text style={styles.schoolTxt}>{item?.program_count ?? '-'}</Text>
+      </View>
+
+      <View style={styles.rowCenterBW}>
+        <Text style={styles.schoolTxt}>City Name</Text>
+        <Text style={styles.schoolTxt}>{item?.city_name ?? '-'}</Text>
+      </View>
+      <View style={styles.rowCenterBW}>
+        <Text style={styles.schoolTxt}>University type</Text>
+        <Text style={styles.schoolTxt}>{item?.public_private ?? '-'}</Text>
+      </View>
+      <View style={styles.rowCenterBW}>
+        <Text style={styles.schoolTxt}>University rank</Text>
+        <Text style={styles.schoolTxt}>{item?.school_rank ?? '-'}</Text>
+      </View>
+      <View style={styles.rowCenterBW}>
+        <Text style={styles.schoolTxt}>University fees</Text>
+        <Text style={styles.schoolTxt}>
+          {!isEmpty(item.application_fee)
+            ? `${item.application_fee} ${item.application_fee_currency}`
+            : `34K ${item.application_fee_currency}`}
+        </Text>
+      </View>
+      <View style={styles.buttonView}>
+        <Button
+          title="More info"
+          onPress={() => {
+            Linking.openURL('tel:7715912608');
+          }}
+        />
       </View>
     </Animated.View>
   );
@@ -78,7 +118,6 @@ const stylesheet = createStyleSheet(theme => ({
     marginRight: 10,
     borderRadius: 10,
     padding: 20,
-    flexDirection: 'row',
     marginVertical: 20,
     backgroundColor: theme.colors.buttonColorDisable,
   },
@@ -87,5 +126,20 @@ const stylesheet = createStyleSheet(theme => ({
     color: theme.colors.textColorHq,
     fontSize: 15,
     fontWeight: '500',
+  },
+  row: {
+    flexDirection: 'row',
+    paddingBottom: 15,
+  },
+  rowCenterBW: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  buttonView: {
+    paddingTop: 20,
+    borderTopWidth: 0.9,
+    borderTopColor: theme.colors.textColorHq,
+    borderStyle: 'dashed',
   },
 }));

@@ -122,7 +122,7 @@ const Register = ({navigation}: any) => {
       <Animated.View style={[styles.bottomBtn, loginBtnStyle]}>
         <Button
           disable={disable}
-          title="Sing up"
+          title="Sign up"
           onPress={() => {
             AuthStore.onSignUp(username, password)
               .then(r => {

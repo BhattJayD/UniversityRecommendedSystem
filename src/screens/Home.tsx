@@ -92,8 +92,9 @@ const Home = observer(({navigation}: any) => {
   const viewableItemsReach = useSharedValue<ViewToken[]>([]);
 
   return (
-    <View style={styles.flex}>
-      {/* <Text style={styles.headingTxt}>dream colleges</Text>
+    <ScrollView>
+      <View style={styles.flex}>
+        {/* <Text style={styles.headingTxt}>dream colleges</Text>
       <FlatList
         data={AuthStore?.colegeData?.dreamData}
         renderItem={({item}) => {
@@ -108,83 +109,84 @@ const Home = observer(({navigation}: any) => {
           );
         }}
       /> */}
-      <Text style={styles.headingTxt}>
-        {isEmpty(AuthStore?.trendingCollegeData) ? '' : 'Top colleges'}
-      </Text>
-      <View>
-        <FlatList
-          data={AuthStore?.trendingCollegeData}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          renderItem={({item}) => {
-            console.log(item, 'oiii');
+        <Text style={styles.headingTxt}>
+          {isEmpty(AuthStore?.trendingCollegeData) ? '' : 'Top colleges'}
+        </Text>
+        <View>
+          <FlatList
+            data={AuthStore?.trendingCollegeData}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            renderItem={({item}) => {
+              console.log(item, 'oiii');
 
-            return <RenderSchoolItem item={item} />;
-          }}
-        />
-      </View>
+              return <RenderSchoolItem item={item} />;
+            }}
+          />
+        </View>
 
-      <Text style={styles.headingTxt}>
-        {isEmpty(AuthStore?.colegeData?.reachData) ? '' : 'Reach colleges'}
-      </Text>
-      <View>
-        <FlatList
-          data={AuthStore?.colegeData?.reachData}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          renderItem={({item}) => {
-            return <RenderSchoolItem item={item} />;
-          }}
-        />
-      </View>
+        <Text style={styles.headingTxt}>
+          {isEmpty(AuthStore?.colegeData?.reachData) ? '' : 'Reach colleges'}
+        </Text>
+        <View>
+          <FlatList
+            data={AuthStore?.colegeData?.reachData}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            renderItem={({item}) => {
+              return <RenderSchoolItem item={item} />;
+            }}
+          />
+        </View>
 
-      <Text style={styles.headingTxt}>
-        {isEmpty(AuthStore?.colegeData?.safeData) ? '' : 'Safe colleges'}
-      </Text>
-      <View>
-        <FlatList
-          data={AuthStore?.colegeData?.safeData}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          renderItem={({item}) => {
-            return <RenderSchoolItem item={item} />;
-          }}
-        />
-      </View>
-      <Text style={styles.headingTxt}>
-        {isEmpty(AuthStore?.colegeData?.dreamData) ? '' : 'Dream colleges'}
-      </Text>
-      <View>
-        <FlatList
-          data={AuthStore?.colegeData?.dreamData}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          renderItem={({item}) => {
-            return <RenderSchoolItem item={item} />;
-          }}
-        />
-      </View>
+        <Text style={styles.headingTxt}>
+          {isEmpty(AuthStore?.colegeData?.safeData) ? '' : 'Safe colleges'}
+        </Text>
+        <View>
+          <FlatList
+            data={AuthStore?.colegeData?.safeData}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            renderItem={({item}) => {
+              return <RenderSchoolItem item={item} />;
+            }}
+          />
+        </View>
+        <Text style={styles.headingTxt}>
+          {isEmpty(AuthStore?.colegeData?.dreamData) ? '' : 'Dream colleges'}
+        </Text>
+        <View>
+          <FlatList
+            data={AuthStore?.colegeData?.dreamData}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            renderItem={({item}) => {
+              return <RenderSchoolItem item={item} />;
+            }}
+          />
+        </View>
 
-      <Button
-        title="Update your college prefrence"
-        onPress={() => {
-          // AuthStore.logout();
-          // navigation.replace('AppInfo');
-          AuthStore.removeUserPref(AuthStore.user.user.uid);
-          navigation.replace('UserPref');
-        }}
-      />
-
-      <View style={{marginTop: 30}}>
         <Button
-          title="Logout"
+          title="Update your college prefrence"
           onPress={() => {
-            AuthStore.logout();
-            navigation.replace('AppInfo');
+            // AuthStore.logout();
+            // navigation.replace('AppInfo');
+            AuthStore.removeUserPref(AuthStore.user.user.uid);
+            navigation.replace('UserPref');
           }}
         />
+
+        <View style={{marginTop: 30}}>
+          <Button
+            title="Logout"
+            onPress={() => {
+              AuthStore.logout();
+              navigation.replace('AppInfo');
+            }}
+          />
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 });
 
