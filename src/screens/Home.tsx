@@ -23,31 +23,43 @@ const Home = observer(({navigation}: any) => {
       AuthStore.storedPref = userData.userPref;
       console.log(AuthStore.storedPref, 'AuthStore.storedPref');
 
-      const response = await axios.post(
-        'https://api.leverageedu.com/services/ip/university/course/finder/universities/v3',
-        AuthStore.storedPref,
-        {
-          headers: {
-            'User-Agent':
-              'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/116.0',
-            'Accept-Language': 'en-US,en;q=0.5',
-            'Accept-Encoding': 'gzip, deflate, br',
-            Origin: 'https://leverageedu.com',
-            Connection: 'keep-alive',
-            Referer: 'https://leverageedu.com/',
-            'Sec-Fetch-Dest': 'empty',
-            'Sec-Fetch-Mode': 'cors',
-            'Sec-Fetch-Site': 'same-site',
-            TE: 'trailers',
+      await axios
+        .post(
+          'https://api.leverageedu.com/services/ip/university/course/finder/universities/v3',
+          AuthStore.storedPref,
+          {
+            headers: {
+              'User-Agent':
+                'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/116.0',
+              'Accept-Language': 'en-US,en;q=0.5',
+              'Accept-Encoding': 'gzip, deflate, br',
+              Origin: 'https://leverageedu.com',
+              Connection: 'keep-alive',
+              Referer: 'https://leverageedu.com/',
+              'Sec-Fetch-Dest': 'empty',
+              'Sec-Fetch-Mode': 'cors',
+              'Sec-Fetch-Site': 'same-site',
+              TE: 'trailers',
+            },
           },
-        },
-      );
-      // console.log(response.data.data);
-      runInAction(() => {
-        AuthStore.colegeData = response.data.data;
-      });
-      data.current = response.data.data;
-      console.log(data.current.reachData, 'fata');
+        )
+        .then(response => {
+          runInAction(() => {
+            AuthStore.colegeData = response.data.data;
+            if (isEmpty(AuthStore?.colegeData?.safeData)) {
+              AuthStore.colegeData = AuthStore.failSafeData;
+            }
+          });
+          data.current = response.data.data;
+        })
+        .catch(e => {
+          console.log(e, 'responseresponse');
+          runInAction(() => {
+            AuthStore.colegeData = AuthStore.failSafeData;
+          });
+        });
+
+      // console.log(data.current, 'fata');
 
       const responseTrending = await axios.get(
         'https://api.leverageedu.com/services/accommodation/v4/property/trending',
@@ -96,8 +108,9 @@ const Home = observer(({navigation}: any) => {
           );
         }}
       /> */}
-
-      <Text style={styles.headingTxt}>Top colleges</Text>
+      <Text style={styles.headingTxt}>
+        {isEmpty(AuthStore?.trendingCollegeData) ? '' : 'Top colleges'}
+      </Text>
       <View>
         <FlatList
           data={AuthStore?.trendingCollegeData}
@@ -111,7 +124,9 @@ const Home = observer(({navigation}: any) => {
         />
       </View>
 
-      <Text style={styles.headingTxt}>Reach colleges</Text>
+      <Text style={styles.headingTxt}>
+        {isEmpty(AuthStore?.colegeData?.reachData) ? '' : 'Reach colleges'}
+      </Text>
       <View>
         <FlatList
           data={AuthStore?.colegeData?.reachData}
@@ -123,7 +138,9 @@ const Home = observer(({navigation}: any) => {
         />
       </View>
 
-      <Text style={styles.headingTxt}>Safe colleges</Text>
+      <Text style={styles.headingTxt}>
+        {isEmpty(AuthStore?.colegeData?.safeData) ? '' : 'Safe colleges'}
+      </Text>
       <View>
         <FlatList
           data={AuthStore?.colegeData?.safeData}
@@ -134,7 +151,9 @@ const Home = observer(({navigation}: any) => {
           }}
         />
       </View>
-      <Text style={styles.headingTxt}>Dream colleges</Text>
+      <Text style={styles.headingTxt}>
+        {isEmpty(AuthStore?.colegeData?.dreamData) ? '' : 'Dream colleges'}
+      </Text>
       <View>
         <FlatList
           data={AuthStore?.colegeData?.dreamData}

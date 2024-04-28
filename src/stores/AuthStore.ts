@@ -1,4 +1,4 @@
-import {action, makeAutoObservable} from 'mobx';
+import {action, makeAutoObservable, runInAction} from 'mobx';
 
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {
@@ -53,6 +53,8 @@ class authStore {
 
   colegeData = [];
   trendingCollegeData = [];
+
+  failSafeData = [];
 
   resetFiels() {
     this.user = {} as FirebaseAuthTypes.UserCredential;
@@ -253,6 +255,42 @@ class authStore {
       .catch(e => {
         console.log(e);
       });
+  };
+
+  setFailSafe = async (data: any) => {
+    // const userData = await this.checkUserExistOrNot();
+    // let a = userData;
+    // @ts-ignore
+
+    await firestore()
+      .collection('FailSafe')
+      .doc('1')
+      .set(data)
+      .then(r => {
+        console.log('data added!', r);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  getFailSafeData = async () => {
+    try {
+      const snapshot = await firestore().collection('FailSafe').get();
+      if (snapshot.docs?.length > 0) {
+        runInAction(() => {
+          this.failSafeData = snapshot.docs?.[0].data();
+        });
+        return snapshot.docs?.[0].data();
+      }
+      console.log('snapshot', snapshot.docs?.[0]);
+      runInAction(() => {
+        this.failSafeData = snapshot.docs;
+      });
+      return snapshot.docs;
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   checkUserExistOrNot = async (uid: string = this.user.user.uid) => {

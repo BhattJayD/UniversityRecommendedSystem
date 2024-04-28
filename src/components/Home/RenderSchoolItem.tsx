@@ -14,9 +14,9 @@ const RenderSchoolItem = ({item, viewableItems}: any) => {
   const {styles} = useStyles(stylesheet);
 
   // Randomize initial positions and animation properties
-  const initialTranslateY = Math.random() * 1000; // Randomly between 0 and 1000
-  const initialTranslateX = Math.random() * 600 - 300; // Randomly between -300 and 300
-  const duration = 1000 + Math.random() * 1000; // Between 1000 and 2000 milliseconds
+  const initialTranslateY = 1000; // Randomly between 0 and 1000
+  const initialTranslateX = -1000; // Randomly between -300 and 300
+  const duration = 1000 + 1000; // Between 1000 and 2000 milliseconds
   const easing = Easing.inOut(Easing.ease); // You can also randomize easing functions
 
   const translateY = useSharedValue(initialTranslateY); // Start offscreen
@@ -25,7 +25,7 @@ const RenderSchoolItem = ({item, viewableItems}: any) => {
   const itemAnimatedStyle = useAnimatedStyle(() => {
     return {
       transform: [
-        {translateY: translateY.value},
+        // {translateY: translateY.value},
         {translateX: translateX.value},
       ],
     };
