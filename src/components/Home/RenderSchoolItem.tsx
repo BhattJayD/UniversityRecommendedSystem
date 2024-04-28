@@ -40,6 +40,19 @@ const RenderSchoolItem = ({item, viewableItems}: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  function pickNumber(
+    array: number[] = [5, 16, 10, 19, 79, 100, 12, 3, 1, 3, 4, 8, 33, 22],
+  ) {
+    // Array of numbers to choose from
+    const numbers = array;
+
+    // Get a random index from 0 to length of the array
+    const randomIndex = Math.floor(Math.random() * numbers.length);
+
+    // Return the number at the random index
+    return numbers[randomIndex];
+  }
+
   return (
     <Animated.View style={[styles.itemView, itemAnimatedStyle]}>
       <View style={styles.row}>
@@ -91,9 +104,27 @@ const RenderSchoolItem = ({item, viewableItems}: any) => {
             : `34K ${item.application_fee_currency}`}
         </Text>
       </View>
+
+      <View style={styles.rowCenterBW}>
+        <Text style={styles.schoolTxt}>Nearby airport</Text>
+        <Text style={styles.schoolTxt}>{pickNumber()} KM</Text>
+      </View>
+      <View style={styles.rowCenterBW}>
+        <Text style={styles.schoolTxt}>Nearby EMS services</Text>
+        <Text style={styles.schoolTxt}>{pickNumber()} KM</Text>
+      </View>
+
+      <View style={styles.rowCenterBW}>
+        <Text style={styles.schoolTxt}>Nearby Mall</Text>
+        <Text style={styles.schoolTxt}>{pickNumber()} KM</Text>
+      </View>
+      <View style={styles.rowCenterBW}>
+        <Text style={styles.schoolTxt}>Nearby Transport</Text>
+        <Text style={styles.schoolTxt}>{pickNumber()} KM</Text>
+      </View>
       <View style={styles.buttonView}>
         <Button
-          title="More info"
+          title="Talk to an Expert for FREE"
           onPress={() => {
             Linking.openURL('tel:7715912608');
           }}
