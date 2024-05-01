@@ -91,11 +91,15 @@ const PersonalPref = ({navigation}: any) => {
 
         <TouchableOpacity onPress={() => setShow(true)}>
           <View style={styles.txtIpView}>
-            <Text style={styles.ipStyle}> {'  ' + countryCode}</Text>
+            <Text style={styles.ipStyle}>
+              {' '}
+              {isEmpty(countryCode) ? 'Select country' : countryCode}
+            </Text>
           </View>
         </TouchableOpacity>
       </Animated.View>
       <CountryPicker
+        style={{countryName: {color: '#000'}, modal: {maxHeight: '90%'}}}
         lang="en"
         show={show}
         pickerButtonOnPress={item => {
