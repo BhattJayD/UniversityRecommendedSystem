@@ -39,7 +39,9 @@ const RenderSchoolItem = ({item, viewableItems}: any) => {
   }, []);
 
   function pickNumber(
-    array: number[] = [5, 16, 10, 19, 79, 100, 12, 3, 1, 3, 4, 8, 33, 22],
+    array: number[] = [
+      1, 2, 5, 6, 7, 8, 10, 12, 14, 16, 18, 19, 20, 21, 3, 4, 11, 9,
+    ],
   ) {
     // Array of numbers to choose from
     const numbers = array;
