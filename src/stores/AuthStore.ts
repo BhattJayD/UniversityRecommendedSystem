@@ -56,6 +56,8 @@ class authStore {
 
   failSafeData = [];
 
+  eduData: string[] = [];
+
   resetFiels() {
     this.user = {} as FirebaseAuthTypes.UserCredential;
     this.userCount = 0;
@@ -85,6 +87,7 @@ class authStore {
     this.trendingCollegeData = [];
 
     this.failSafeData = [];
+    this.eduData = [];
   };
 
   onSignIn = async (username: string, password: string) => {
@@ -113,14 +116,15 @@ class authStore {
             // );
             const isExist = await this.checkUserExistOrNot(this.user.user.uid);
             const isPrefExist = await this.checkUserPrefExistOrNot();
-
             console.log(isExist);
             if (!isEmpty(isExist) && !isEmpty(isPrefExist)) {
               resolve('success');
+            } else if (isEmpty(isExist)) {
+              resolve('setup');
             } else if (isEmpty(isPrefExist)) {
               resolve('UserPref');
             } else {
-              resolve('setup');
+              resolve('Home');
             }
           })
           .catch(error => {
@@ -149,8 +153,8 @@ class authStore {
           .createUserWithEmailAndPassword(username, password)
           .then(async r => {
             // showToast('Successful sign-in');
-            await storeToAsyncStorage(StorageConstants.Username, username);
-            await storeToAsyncStorage(StorageConstants.Password, password);
+            // await storeToAsyncStorage(StorageConstants.Username, username);
+            // await storeToAsyncStorage(StorageConstants.Password, password);
 
             resolve('success');
             this.user = r;
@@ -191,6 +195,28 @@ class authStore {
                 );
 
                 const isPrefExist = await this.checkUserPrefExistOrNot();
+                console.log(isPrefExist, 'isPrefExist');
+                try {
+                  runInAction(() => {
+                    this.selectedCountry = isPrefExist.country_ids;
+                    this.selectedDegree = isPrefExist.degree_type;
+                    this.DegreePercentage = {
+                      percentage: '90%',
+                      selectedEdu: this.selectedDegree,
+                      board: 'Select',
+                    };
+                    this.selectedField = isPrefExist.field_of_study_id;
+                    this.extraExamDetails = {
+                      score: isPrefExist.heighest_education_level_percentage,
+                      selectedExam: this.selectedDegree,
+                    };
+
+                    // {"country_ids": [13], "degree_type": "MASTERS", "field_of_study_id": ["Computers and Data Science"], "heighest_education_level_id": "27", "heighest_education_level_percentage": "98", "limit": 0, "offSet": 0, "page_uni": 1, "search_program_tag": false, "university_type": ""}
+                  });
+                } catch (error) {
+                  console.log(error);
+                }
+
                 console.log(isExist);
                 if (!isEmpty(isExist) && !isEmpty(isPrefExist)) {
                   resolve('Home');
@@ -260,6 +286,50 @@ class authStore {
       .catch(e => {
         console.log(e);
       });
+  };
+  saveUsersEduData = async (
+    userId: string = this.user.user.uid ?? '',
+    id: string,
+  ) => {
+    const data = await this.getUsersEduData();
+    console.log(data?.ids, 'data');
+    if (!isEmpty(data?.ids)) {
+      runInAction(() => {
+        this.eduData = data?.ids;
+      });
+    }
+    if (data?.ids?.includes(id)) {
+      return;
+    }
+
+    await firestore()
+      .collection('Edu')
+      .doc(userId)
+      .set({ids: isEmpty(data?.ids) ? [id] : [...data?.ids, id], id: userId})
+      .then(r => {
+        console.log('edu readed!', r);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  getUsersEduData = async (userId: string = this.user.user.uid ?? '') => {
+    try {
+      const snapshot = await firestore()
+        .collection('Edu')
+        .where('id', '==', userId)
+        .get();
+      if (snapshot.docs?.length > 0) {
+        // console.log(snapshot.docs, 'snapshot.docs');
+
+        return snapshot.docs?.[0].data();
+      }
+      // console.log('snapshot', snapshot.docs?.[0]);
+      return snapshot.docs;
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   saveUserPrefToFireStore = async (

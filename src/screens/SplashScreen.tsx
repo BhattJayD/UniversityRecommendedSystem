@@ -16,7 +16,7 @@ export default function SplashScreen({navigation}: any) {
               navigation.replace('Login');
               break;
             case 'Home':
-              navigation.replace('Home');
+              navigation.replace('MyDrawer');
               break;
             case 'Appinfo':
               navigation.replace('AppInfo');

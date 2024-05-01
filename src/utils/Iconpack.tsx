@@ -7,4 +7,6 @@ export default {
   USA: require('../assets/dpusa2.png'),
   EU: require('../assets/EU.png'),
   BACK: require('../assets/back.png'),
+  MENU: require('../assets/hamburger.png'),
+  DONE: require('../assets/correct.png'),
 };

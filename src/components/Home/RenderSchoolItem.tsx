@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {Image, Linking, Text, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Image, Text, View} from 'react-native';
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -10,6 +10,7 @@ import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import {isEmpty} from '../../utils/Helper';
 import Iconpack from '../../utils/Iconpack';
 import Button from '../Button';
+import Modal from '../Modal';
 
 const RenderSchoolItem = ({item}: any) => {
   const {styles} = useStyles(stylesheet);
@@ -52,9 +53,33 @@ const RenderSchoolItem = ({item}: any) => {
     // Return the number at the random index
     return numbers[randomIndex];
   }
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [data, setData] = useState<any>({});
+
+  type typeDataKM = {
+    airport: number;
+    hospital: number;
+    mall: number;
+    transport: number;
+  };
+  const [dataKM] = useState<typeDataKM>({
+    airport: pickNumber(),
+    hospital: pickNumber(),
+    mall: pickNumber(),
+    transport: pickNumber(),
+  });
 
   return (
     <Animated.View style={[styles.itemView, itemAnimatedStyle]}>
+      <Modal
+        airport={dataKM.airport}
+        hospital={dataKM.hospital}
+        item={data}
+        isVisibles={showModal}
+        mall={dataKM.mall}
+        setShowModal={() => setShowModal(false)}
+        transport={dataKM.transport}
+      />
       <View style={styles.row}>
         <Image
           source={
@@ -79,7 +104,7 @@ const RenderSchoolItem = ({item}: any) => {
           )}
         </View>
       </View>
-      <View style={styles.rowCenterBW}>
+      {/* <View style={styles.rowCenterBW}>
         <Text style={styles.schoolTxt}>Total Courses</Text>
         <Text style={styles.schoolTxt}>{item?.program_count ?? '-'}</Text>
       </View>
@@ -129,7 +154,14 @@ const RenderSchoolItem = ({item}: any) => {
             Linking.openURL('tel:7715912608');
           }}
         />
-      </View>
+      </View> */}
+      <Button
+        title="View more"
+        onPress={() => {
+          setData(item);
+          setShowModal(true);
+        }}
+      />
     </Animated.View>
   );
 };

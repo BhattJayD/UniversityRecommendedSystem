@@ -1,5 +1,14 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {FlatList, Image, ScrollView, Text, View, ViewToken} from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewToken,
+} from 'react-native';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import Button from '../components/Button';
 import AuthStore from '../stores/AuthStore';
@@ -9,13 +18,17 @@ import {observer} from 'mobx-react';
 import RenderSchoolItem from '../components/Home/RenderSchoolItem';
 import {useSharedValue} from 'react-native-reanimated';
 import {isEmpty} from '../utils/Helper';
+import Iconpack from '../utils/Iconpack';
 
 const Home = observer(({navigation}: any) => {
   const {styles} = useStyles(stylesheet);
   // const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
   const data = useRef(null);
   useEffect(() => {
     (async () => {
+      setIsLoading(true);
       let userData = await AuthStore.checkUserExistOrNot(
         AuthStore.user.user.uid,
       );
@@ -79,13 +92,10 @@ const Home = observer(({navigation}: any) => {
           },
         },
       );
-      console.log(
-        JSON.stringify(responseTrending.data.Data, null, 2),
-        'responseTrending.data',
-      );
       runInAction(() => {
         AuthStore.trendingCollegeData = responseTrending.data.Data;
       });
+      setIsLoading(false);
     })();
   }, []);
 
@@ -116,6 +126,31 @@ const Home = observer(({navigation}: any) => {
           );
         }}
       /> */}
+        {isLoading && (
+          <View
+            style={{
+              position: 'absolute',
+              right: 0,
+              left: 0,
+              bottom: 0,
+              top: 0,
+              zIndex: 10,
+              flex: 1,
+            }}>
+            <ActivityIndicator size="large" color="#841FFD" />
+          </View>
+        )}
+        <TouchableOpacity
+          style={styles.backBtn}
+          onPress={() => {
+            runInAction(() => {
+              AuthStore.extraExamDetails = {};
+            });
+            navigation.replace('UserPref');
+          }}>
+          <Image source={Iconpack.BACK} style={styles.backIcon} />
+          <Text style={styles.schoolTxt}>Change your percentage</Text>
+        </TouchableOpacity>
         <Text style={styles.headingTxt}>Top colleges</Text>
         <View>
           {!isEmpty(AuthStore?.colegeData) && (
@@ -132,8 +167,6 @@ const Home = observer(({navigation}: any) => {
               horizontal
               showsHorizontalScrollIndicator={false}
               renderItem={({item}) => {
-                console.log(item, 'oiii');
-
                 return <RenderSchoolItem item={item} />;
               }}
             />
@@ -235,4 +268,6 @@ const stylesheet = createStyleSheet(theme => ({
     fontSize: 15,
     fontWeight: '500',
   },
+  backIcon: {height: 20, width: 20, marginRight: 5},
+  backBtn: {flexDirection: 'row', marginBottom: 10},
 }));

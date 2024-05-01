@@ -100,12 +100,12 @@ const Login = ({navigation}: any) => {
                 if (r === 'success') {
                   setUsername('');
                   setPassword('');
-                  navigation.replace('Home');
+                  navigation.replace('MyDrawer');
                 } else if (r === 'UserPref') {
                   navigation.replace('UserPref');
                   console.log('user pref');
                 } else if (r === 'setup') {
-                  navigation.replace('PersonalPref');
+                  navigation.navigate('PersonalPref');
                   console.log('user pref');
                 }
               })
