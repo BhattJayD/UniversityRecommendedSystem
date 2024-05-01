@@ -17,9 +17,9 @@ export const lightTheme = {
 
 export const darkTheme = {
   colors: {
-    textColorHq: '#ffffff',
-    textColorLq: '#ffffff50',
-    background: '#000000',
+    textColorHq: '#000000',
+    textColorLq: '#00000050',
+    background: '#F5F7FB',
     buttonColor: '#841FFD',
     buttonColorDisable: '#841FFD33',
     lightWhite: '#F9F9F9',

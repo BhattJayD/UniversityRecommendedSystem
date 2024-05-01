@@ -49,7 +49,7 @@ const CountryPicker = observer(() => {
   return (
     <View style={styles.flex}>
       <View style={styles.abs}>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((e, i) => {
+        {[1, 2, 3, 4, 5].map((e, i) => {
           return <MoveCircle key={e + i.toString()} />;
         })}
       </View>
@@ -101,8 +101,9 @@ const stylesheet = createStyleSheet(theme => ({
     position: 'absolute',
   },
   headingTxt: {
-    fontSize: 24,
+    fontSize: 18,
     color: theme.colors.textColorHq,
     fontWeight: '600',
+    marginBottom: 10,
   },
 }));

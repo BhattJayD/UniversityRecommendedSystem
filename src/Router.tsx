@@ -41,7 +41,8 @@ function MyStack() {
       />
       <Stack.Screen
         options={{
-          headerShown: false,
+          // headerShown: !false,
+          headerTitle: '',
           cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
         }}
         name="Register"
@@ -65,7 +66,7 @@ function MyStack() {
       />
       <Stack.Screen
         options={{
-          // headerShown: false,
+          headerShown: false,
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         }}
         name="Home"

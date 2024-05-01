@@ -28,7 +28,7 @@ const RenderCountryItem = ({item, onPress, isSelected}: itemType) => {
   const itemAnimatedStyle = useAnimatedStyle(() => {
     return {
       transform: [
-        {translateY: translateY.value},
+        // {translateY: translateY.value},
         {translateX: translateX.value},
       ],
     };
@@ -55,7 +55,7 @@ const RenderCountryItem = ({item, onPress, isSelected}: itemType) => {
             resizeMode="contain"
           />
         </View>
-        <Text>{item.name}</Text>
+        <Text style={styles.listTxt}>{item.name}</Text>
       </Animated.View>
     </TouchableOpacity>
   );
@@ -75,6 +75,11 @@ const stylesheet = createStyleSheet(theme => ({
     fontSize: 24,
     color: theme.colors.textColorHq,
     fontWeight: '600',
+  },
+  listTxt: {
+    // fontSize: 24,
+    color: theme.colors.textColorHq,
+    // fontWeight: '600',
   },
   itemStyle: {
     flexDirection: 'row',
