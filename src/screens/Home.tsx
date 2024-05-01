@@ -187,6 +187,7 @@ const Home = observer(({navigation}: any) => {
             // AuthStore.logout();
             // navigation.replace('AppInfo');
             AuthStore.removeUserPref(AuthStore.user.user.uid);
+            AuthStore.resetPref();
             navigation.replace('UserPref');
           }}
         />

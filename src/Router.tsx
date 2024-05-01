@@ -65,7 +65,7 @@ function MyStack() {
       />
       <Stack.Screen
         options={{
-          // headerShown: false,
+          headerShown: false,
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         }}
         name="Home"

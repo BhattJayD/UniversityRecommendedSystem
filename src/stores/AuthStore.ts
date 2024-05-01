@@ -61,6 +61,32 @@ class authStore {
     this.userCount = 0;
   }
 
+  resetPref = () => {
+    this.selectedCountry = [];
+    this.selectedDegree = '';
+    this.DegreePercentage = {};
+    this.selectedField = '';
+    this.extraExamDetails = {};
+
+    this.storedPref = {
+      country_ids: [], // Assuming empty array for default
+      degree_type: '', // Assuming empty string for default
+      field_of_study_id: [], // Assuming empty array for default
+      heighest_education_level_id: '', // Assuming empty string for default
+      heighest_education_level_percentage: '', // Assuming empty string for default
+      limit: 0, // Assuming zero for default
+      offSet: 0, // Assuming zero for default
+      page_uni: 0, // Assuming zero for default
+      search_program_tag: false, // Assuming false for default
+      university_type: '', // Assuming empty string for default
+    };
+
+    this.colegeData = [];
+    this.trendingCollegeData = [];
+
+    this.failSafeData = [];
+  };
+
   onSignIn = async (username: string, password: string) => {
     return await new Promise(async (resolve, reject) => {
       if (isEmpty(username) || isEmpty(password)) {
