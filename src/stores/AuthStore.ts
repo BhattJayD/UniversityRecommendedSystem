@@ -56,6 +56,8 @@ class authStore {
 
   failSafeData = [];
 
+  eduData: string[] = [];
+
   resetFiels() {
     this.user = {} as FirebaseAuthTypes.UserCredential;
     this.userCount = 0;
@@ -85,6 +87,7 @@ class authStore {
     this.trendingCollegeData = [];
 
     this.failSafeData = [];
+    this.eduData = [];
   };
 
   onSignIn = async (username: string, password: string) => {
@@ -283,6 +286,50 @@ class authStore {
       .catch(e => {
         console.log(e);
       });
+  };
+  saveUsersEduData = async (
+    userId: string = this.user.user.uid ?? '',
+    id: string,
+  ) => {
+    const data = await this.getUsersEduData();
+    console.log(data?.ids, 'data');
+    if (!isEmpty(data?.ids)) {
+      runInAction(() => {
+        this.eduData = data?.ids;
+      });
+    }
+    if (data?.ids?.includes(id)) {
+      return;
+    }
+
+    await firestore()
+      .collection('Edu')
+      .doc(userId)
+      .set({ids: isEmpty(data?.ids) ? [id] : [...data?.ids, id], id: userId})
+      .then(r => {
+        console.log('edu readed!', r);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  getUsersEduData = async (userId: string = this.user.user.uid ?? '') => {
+    try {
+      const snapshot = await firestore()
+        .collection('Edu')
+        .where('id', '==', userId)
+        .get();
+      if (snapshot.docs?.length > 0) {
+        // console.log(snapshot.docs, 'snapshot.docs');
+
+        return snapshot.docs?.[0].data();
+      }
+      // console.log('snapshot', snapshot.docs?.[0]);
+      return snapshot.docs;
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   saveUserPrefToFireStore = async (

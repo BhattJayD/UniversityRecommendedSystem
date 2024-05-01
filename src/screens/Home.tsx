@@ -88,10 +88,6 @@ const Home = observer(({navigation}: any) => {
           },
         },
       );
-      console.log(
-        JSON.stringify(responseTrending.data.Data, null, 2),
-        'responseTrending.data',
-      );
       runInAction(() => {
         AuthStore.trendingCollegeData = responseTrending.data.Data;
       });
@@ -126,6 +122,7 @@ const Home = observer(({navigation}: any) => {
         }}
       /> */}
         <TouchableOpacity
+          style={styles.backBtn}
           onPress={() => {
             runInAction(() => {
               AuthStore.extraExamDetails = {};
@@ -133,6 +130,7 @@ const Home = observer(({navigation}: any) => {
             navigation.replace('UserPref');
           }}>
           <Image source={Iconpack.BACK} style={styles.backIcon} />
+          <Text style={styles.schoolTxt}>Change your percentage</Text>
         </TouchableOpacity>
         <Text style={styles.headingTxt}>Top colleges</Text>
         <View>
@@ -150,8 +148,6 @@ const Home = observer(({navigation}: any) => {
               horizontal
               showsHorizontalScrollIndicator={false}
               renderItem={({item}) => {
-                console.log(item, 'oiii');
-
                 return <RenderSchoolItem item={item} />;
               }}
             />
@@ -253,5 +249,6 @@ const stylesheet = createStyleSheet(theme => ({
     fontSize: 15,
     fontWeight: '500',
   },
-  backIcon: {height: 20, width: 20},
+  backIcon: {height: 20, width: 20, marginRight: 5},
+  backBtn: {flexDirection: 'row', marginBottom: 10},
 }));

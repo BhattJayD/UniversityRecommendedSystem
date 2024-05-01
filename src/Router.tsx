@@ -16,6 +16,8 @@ import MyWebComponent from './screens/Webview';
 import {Image, View} from 'react-native';
 import Iconpack from './utils/Iconpack';
 import Menu from './components/Menu';
+import PDFViewer from './screens/PDFViewer';
+import ExamPortal from './screens/ExamPortal';
 
 const Stack = createStackNavigator();
 
@@ -41,6 +43,15 @@ function MyDrawer() {
         }}
         name="Exams"
         component={MyWebComponent}
+      />
+      <Drawer.Screen
+        options={{
+          // headerShown: false,
+          headerLeft: () => <Menu />,
+          headerTitle: '',
+        }}
+        name="Study"
+        component={ExamPortal}
       />
     </Drawer.Navigator>
   );
@@ -110,6 +121,14 @@ function MyStack() {
         }}
         name="MyDrawer"
         component={MyDrawer}
+      />
+      <Stack.Screen
+        options={{
+          headerTitle: '',
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}
+        name="PDFViewer"
+        component={PDFViewer}
       />
     </Stack.Navigator>
   );
