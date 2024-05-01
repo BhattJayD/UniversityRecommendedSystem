@@ -11,7 +11,7 @@ import {isEmpty} from '../../utils/Helper';
 import Iconpack from '../../utils/Iconpack';
 import Button from '../Button';
 
-const RenderSchoolItem = ({item, viewableItems}: any) => {
+const RenderSchoolItem = ({item}: any) => {
   const {styles} = useStyles(stylesheet);
 
   // Randomize initial positions and animation properties

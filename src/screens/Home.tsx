@@ -216,6 +216,8 @@ const stylesheet = createStyleSheet(theme => ({
   },
   headingTxt: {
     color: theme.colors.textColorHq,
+    fontWeight: '900',
+    fontSize: 16,
   },
   itemView: {
     borderWidth: 1,
