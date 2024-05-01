@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {Image, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import Button from '../components/Button';
 import AuthStore from '../stores/AuthStore';
@@ -13,6 +13,7 @@ import CalendarPicker from 'react-native-calendar-picker';
 
 import {CountryPicker} from 'react-native-country-codes-picker';
 import MoveCircle from '../components/MoveCircle';
+import Iconpack from '../utils/Iconpack';
 
 const PersonalPref = ({navigation}: any) => {
   const {styles} = useStyles(stylesheet);
@@ -54,6 +55,14 @@ const PersonalPref = ({navigation}: any) => {
           return <MoveCircle key={e + i.toString()} />;
         })}
       </View>
+      {navigation.canGoBack() && (
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}>
+          <Image source={Iconpack.BACK} style={styles.backIcon} />
+        </TouchableOpacity>
+      )}
       <Text style={styles.headingTxt}>Personal Info</Text>
       <Animated.View style={[styles.ipView]}>
         <Text style={styles.titleTxt}>Full name</Text>
@@ -215,4 +224,5 @@ const stylesheet = createStyleSheet(theme => ({
     justifyContent: 'center',
   },
   ipStyle: {color: theme.colors.textColorHq},
+  backIcon: {height: 20, width: 20},
 }));

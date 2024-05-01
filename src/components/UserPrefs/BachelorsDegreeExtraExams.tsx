@@ -130,7 +130,7 @@ const BachelorsDegreeExtraExams = observer(({navigation}: any) => {
           });
 
           console.log(AuthStore.extraExamDetails);
-          navigation.replace('Home');
+          navigation.replace('MyDrawer');
         }}
       />
     </View>
