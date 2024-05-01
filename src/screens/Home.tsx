@@ -1,5 +1,13 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {FlatList, Image, ScrollView, Text, View, ViewToken} from 'react-native';
+import {
+  FlatList,
+  Image,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewToken,
+} from 'react-native';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import Button from '../components/Button';
 import AuthStore from '../stores/AuthStore';
@@ -9,6 +17,7 @@ import {observer} from 'mobx-react';
 import RenderSchoolItem from '../components/Home/RenderSchoolItem';
 import {useSharedValue} from 'react-native-reanimated';
 import {isEmpty} from '../utils/Helper';
+import Iconpack from '../utils/Iconpack';
 
 const Home = observer(({navigation}: any) => {
   const {styles} = useStyles(stylesheet);
@@ -116,16 +125,15 @@ const Home = observer(({navigation}: any) => {
           );
         }}
       /> */}
-        <Text
-          style={{color: 'red'}}
+        <TouchableOpacity
           onPress={() => {
             runInAction(() => {
               AuthStore.extraExamDetails = {};
             });
             navigation.replace('UserPref');
           }}>
-          Back
-        </Text>
+          <Image source={Iconpack.BACK} style={styles.backIcon} />
+        </TouchableOpacity>
         <Text style={styles.headingTxt}>Top colleges</Text>
         <View>
           {!isEmpty(AuthStore?.colegeData) && (
@@ -245,4 +253,5 @@ const stylesheet = createStyleSheet(theme => ({
     fontSize: 15,
     fontWeight: '500',
   },
+  backIcon: {height: 20, width: 20},
 }));
