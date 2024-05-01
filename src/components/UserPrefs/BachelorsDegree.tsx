@@ -65,7 +65,7 @@ const BachelorsDegree = observer(() => {
   return (
     <View style={styles.flex}>
       <View style={styles.abs}>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((e, i) => {
+        {[1, 2, 3, 4].map((e, i) => {
           return <MoveCircle key={e + i.toString()} />;
         })}
       </View>
@@ -112,6 +112,7 @@ const BachelorsDegree = observer(() => {
                 selectionColor={'#000'}
                 // style={styles.ipStyle}
                 dropdownIconColor={'#000'}
+                style={styles.pickerStyle}
                 mode="dropdown"
                 onValueChange={itemValue => setSelectedPicker(itemValue)}>
                 <Picker.Item label="Select Board" value="Select" />
@@ -126,6 +127,7 @@ const BachelorsDegree = observer(() => {
                     placeholder="Percentage in %"
                     value={percentage}
                     style={styles.ipStyle}
+                    placeholderTextColor={'#000'}
                     maxLength={3}
                     onChangeText={e => setPercentage(e)}
                     keyboardType="number-pad"
@@ -145,6 +147,7 @@ const BachelorsDegree = observer(() => {
                 maxLength={3}
                 onChangeText={e => setPercentage(e)}
                 keyboardType="number-pad"
+                placeholderTextColor={'#000'}
               />
             </>
           )}
@@ -160,6 +163,7 @@ const BachelorsDegree = observer(() => {
             maxLength={3}
             onChangeText={e => setPercentage(e)}
             keyboardType="number-pad"
+            placeholderTextColor={'#000'}
           />
         </>
       )}
@@ -203,12 +207,13 @@ const stylesheet = createStyleSheet(theme => ({
     position: 'absolute',
   },
   headingTxt: {
-    fontSize: 24,
+    fontSize: 16,
     color: theme.colors.textColorHq,
     fontWeight: '600',
+    marginLeft: 10,
   },
   percentageTxt: {
-    fontSize: 24,
+    fontSize: 18,
     color: theme.colors.buttonColor,
     fontWeight: '600',
   },
@@ -221,10 +226,13 @@ const stylesheet = createStyleSheet(theme => ({
     borderBottomWidth: 1,
     marginBottom: 20,
     borderBottomColor: theme.colors.buttonColor,
+    color: theme.colors.textColorHq,
   },
-  backIcon: {height: 24, width: 24},
+  backIcon: {height: 20, width: 20},
   rowStyle: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginBottom: 10,
   },
+  pickerStyle: {color: theme.colors.textColorHq},
 }));

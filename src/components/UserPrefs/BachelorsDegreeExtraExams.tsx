@@ -64,7 +64,7 @@ const BachelorsDegreeExtraExams = observer(({navigation}: any) => {
   return (
     <View style={styles.flex}>
       <View style={styles.abs}>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((e, i) => {
+        {[1, 2, 3, 4].map((e, i) => {
           return <MoveCircle key={e + i.toString()} />;
         })}
       </View>
@@ -99,6 +99,7 @@ const BachelorsDegreeExtraExams = observer(({navigation}: any) => {
           placeholder="Score"
           value={score}
           style={styles.ipStyle}
+          placeholderTextColor={'#000'}
           maxLength={3}
           onChangeText={e => setScore(e)}
           keyboardType="number-pad"
@@ -148,9 +149,10 @@ const stylesheet = createStyleSheet(theme => ({
     position: 'absolute',
   },
   headingTxt: {
-    fontSize: 24,
+    fontSize: 17,
     color: theme.colors.textColorHq,
     fontWeight: '600',
+    marginLeft: 5,
   },
   percentageTxt: {
     fontSize: 24,
@@ -166,10 +168,12 @@ const stylesheet = createStyleSheet(theme => ({
     borderBottomWidth: 1,
     marginBottom: 20,
     borderBottomColor: theme.colors.buttonColor,
+    color: theme.colors.textColorHq,
   },
-  backIcon: {height: 24, width: 24},
+  backIcon: {height: 20, width: 20},
   rowStyle: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginBottom: 10,
   },
 }));
