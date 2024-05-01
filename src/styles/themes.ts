@@ -6,6 +6,7 @@ export const lightTheme = {
     buttonColor: '#841FFD',
     buttonColorDisable: '#841FFD33',
     lightWhite: '#F9F9F9',
+    lightWhite33: '#C0D6E8',
   },
   margins: {
     sm: 2,
@@ -23,6 +24,7 @@ export const darkTheme = {
     buttonColor: '#841FFD',
     buttonColorDisable: '#841FFD33',
     lightWhite: '#F9F9F9',
+    lightWhite33: '#C0D6E8',
   },
   margins: {
     sm: 2,
