@@ -13,6 +13,9 @@ import PersonalPref from './screens/PersonalPref';
 import UserPref from './screens/UserPref';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import MyWebComponent from './screens/Webview';
+import {Image, View} from 'react-native';
+import Iconpack from './utils/Iconpack';
+import Menu from './components/Menu';
 
 const Stack = createStackNavigator();
 
@@ -23,14 +26,18 @@ function MyDrawer() {
       {/* <Drawer.Screen name="Feed" component={Feed} /> */}
       <Drawer.Screen
         options={{
-          headerShown: false,
+          // headerShown: false,
+          headerLeft: () => <Menu />,
+          headerTitle: '',
         }}
         name="Home"
         component={Home}
       />
       <Drawer.Screen
         options={{
-          headerShown: false,
+          // headerShown: false,
+          headerLeft: () => <Menu />,
+          headerTitle: '',
         }}
         name="Exams"
         component={MyWebComponent}
