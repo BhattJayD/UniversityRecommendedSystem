@@ -116,6 +116,16 @@ const Home = observer(({navigation}: any) => {
           );
         }}
       /> */}
+        <Text
+          style={{color: 'red'}}
+          onPress={() => {
+            runInAction(() => {
+              AuthStore.extraExamDetails = {};
+            });
+            navigation.replace('UserPref');
+          }}>
+          Back
+        </Text>
         <Text style={styles.headingTxt}>Top colleges</Text>
         <View>
           {!isEmpty(AuthStore?.colegeData) && (

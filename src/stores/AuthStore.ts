@@ -192,6 +192,28 @@ class authStore {
                 );
 
                 const isPrefExist = await this.checkUserPrefExistOrNot();
+                console.log(isPrefExist, 'isPrefExist');
+                try {
+                  runInAction(() => {
+                    this.selectedCountry = isPrefExist.country_ids;
+                    this.selectedDegree = isPrefExist.degree_type;
+                    this.DegreePercentage = {
+                      percentage: '90%',
+                      selectedEdu: this.selectedDegree,
+                      board: 'Select',
+                    };
+                    this.selectedField = isPrefExist.field_of_study_id;
+                    this.extraExamDetails = {
+                      score: isPrefExist.heighest_education_level_percentage,
+                      selectedExam: this.selectedDegree,
+                    };
+
+                    // {"country_ids": [13], "degree_type": "MASTERS", "field_of_study_id": ["Computers and Data Science"], "heighest_education_level_id": "27", "heighest_education_level_percentage": "98", "limit": 0, "offSet": 0, "page_uni": 1, "search_program_tag": false, "university_type": ""}
+                  });
+                } catch (error) {
+                  console.log(error);
+                }
+
                 console.log(isExist);
                 if (!isEmpty(isExist) && !isEmpty(isPrefExist)) {
                   resolve('Home');
