@@ -33,7 +33,6 @@ export default class PDFViewer extends React.Component {
           onPressLink={uri => {
             console.log(`Link pressed: ${uri}`);
           }}
-          on
           style={styles.pdf}
         />
       </View>

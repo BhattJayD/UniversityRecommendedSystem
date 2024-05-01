@@ -13,8 +13,6 @@ import PersonalPref from './screens/PersonalPref';
 import UserPref from './screens/UserPref';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import MyWebComponent from './screens/Webview';
-import {Image, View} from 'react-native';
-import Iconpack from './utils/Iconpack';
 import Menu from './components/Menu';
 import PDFViewer from './screens/PDFViewer';
 import ExamPortal from './screens/ExamPortal';

@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {
+  ActivityIndicator,
   FlatList,
   Image,
   ScrollView,
@@ -22,9 +23,12 @@ import Iconpack from '../utils/Iconpack';
 const Home = observer(({navigation}: any) => {
   const {styles} = useStyles(stylesheet);
   // const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
   const data = useRef(null);
   useEffect(() => {
     (async () => {
+      setIsLoading(true);
       let userData = await AuthStore.checkUserExistOrNot(
         AuthStore.user.user.uid,
       );
@@ -91,6 +95,7 @@ const Home = observer(({navigation}: any) => {
       runInAction(() => {
         AuthStore.trendingCollegeData = responseTrending.data.Data;
       });
+      setIsLoading(false);
     })();
   }, []);
 
@@ -121,6 +126,20 @@ const Home = observer(({navigation}: any) => {
           );
         }}
       /> */}
+        {isLoading && (
+          <View
+            style={{
+              position: 'absolute',
+              right: 0,
+              left: 0,
+              bottom: 0,
+              top: 0,
+              zIndex: 10,
+              flex: 1,
+            }}>
+            <ActivityIndicator size="large" color="#841FFD" />
+          </View>
+        )}
         <TouchableOpacity
           style={styles.backBtn}
           onPress={() => {
