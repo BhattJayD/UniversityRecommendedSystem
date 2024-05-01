@@ -113,14 +113,15 @@ class authStore {
             // );
             const isExist = await this.checkUserExistOrNot(this.user.user.uid);
             const isPrefExist = await this.checkUserPrefExistOrNot();
-
             console.log(isExist);
             if (!isEmpty(isExist) && !isEmpty(isPrefExist)) {
               resolve('success');
+            } else if (isEmpty(isExist)) {
+              resolve('setup');
             } else if (isEmpty(isPrefExist)) {
               resolve('UserPref');
             } else {
-              resolve('setup');
+              resolve('Home');
             }
           })
           .catch(error => {
@@ -149,8 +150,8 @@ class authStore {
           .createUserWithEmailAndPassword(username, password)
           .then(async r => {
             // showToast('Successful sign-in');
-            await storeToAsyncStorage(StorageConstants.Username, username);
-            await storeToAsyncStorage(StorageConstants.Password, password);
+            // await storeToAsyncStorage(StorageConstants.Username, username);
+            // await storeToAsyncStorage(StorageConstants.Password, password);
 
             resolve('success');
             this.user = r;

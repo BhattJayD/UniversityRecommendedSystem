@@ -127,7 +127,8 @@ const Register = ({navigation}: any) => {
             AuthStore.onSignUp(username, password)
               .then(r => {
                 if (r === 'success') {
-                  navigation.replace('PersonalPref');
+                  // navigation.replace('PersonalPref');
+                  navigation.goBack();
                 }
               })
               .catch(e => {
