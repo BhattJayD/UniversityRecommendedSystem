@@ -61,12 +61,14 @@ const RenderSchoolItem = ({item}: any) => {
     hospital: number;
     mall: number;
     transport: number;
+    hostel: number;
   };
   const [dataKM] = useState<typeDataKM>({
     airport: pickNumber(),
     hospital: pickNumber(),
     mall: pickNumber(),
     transport: pickNumber(),
+    hostel: pickNumber(),
   });
 
   return (
@@ -79,6 +81,7 @@ const RenderSchoolItem = ({item}: any) => {
         mall={dataKM.mall}
         setShowModal={() => setShowModal(false)}
         transport={dataKM.transport}
+        hostel={dataKM.hostel}
       />
       <View style={styles.row}>
         <Image
@@ -104,7 +107,7 @@ const RenderSchoolItem = ({item}: any) => {
           )}
         </View>
       </View>
-      {/* <View style={styles.rowCenterBW}>
+      <View style={styles.rowCenterBW}>
         <Text style={styles.schoolTxt}>Total Courses</Text>
         <Text style={styles.schoolTxt}>{item?.program_count ?? '-'}</Text>
       </View>
@@ -121,7 +124,7 @@ const RenderSchoolItem = ({item}: any) => {
         <Text style={styles.schoolTxt}>University rank</Text>
         <Text style={styles.schoolTxt}>{item?.school_rank ?? '-'}</Text>
       </View>
-      <View style={styles.rowCenterBW}>
+      <View style={[styles.rowCenterBW, {marginBottom: 10}]}>
         <Text style={styles.schoolTxt}>University fees</Text>
         <Text style={styles.schoolTxt}>
           {!isEmpty(item.application_fee)
@@ -129,32 +132,6 @@ const RenderSchoolItem = ({item}: any) => {
             : `34K ${item.application_fee_currency}`}
         </Text>
       </View>
-
-      <View style={styles.rowCenterBW}>
-        <Text style={styles.schoolTxt}>Nearby airport</Text>
-        <Text style={styles.schoolTxt}>{pickNumber()} KM</Text>
-      </View>
-      <View style={styles.rowCenterBW}>
-        <Text style={styles.schoolTxt}>Nearby EMS services</Text>
-        <Text style={styles.schoolTxt}>{pickNumber()} KM</Text>
-      </View>
-
-      <View style={styles.rowCenterBW}>
-        <Text style={styles.schoolTxt}>Nearby Mall</Text>
-        <Text style={styles.schoolTxt}>{pickNumber()} KM</Text>
-      </View>
-      <View style={styles.rowCenterBW}>
-        <Text style={styles.schoolTxt}>Nearby Transport</Text>
-        <Text style={styles.schoolTxt}>{pickNumber()} KM</Text>
-      </View>
-      <View style={styles.buttonView}>
-        <Button
-          title="Talk to an Expert for FREE"
-          onPress={() => {
-            Linking.openURL('tel:7715912608');
-          }}
-        />
-      </View> */}
       <Button
         title="View more"
         onPress={() => {

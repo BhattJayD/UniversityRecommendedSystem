@@ -71,7 +71,7 @@ const AppInfo = ({navigation}: any) => {
         <Animated.View style={[styles.titleView, animatedStylesTitle]}>
           <Text style={styles.welcomeText}>Welcome to university finder</Text>
           <Text style={styles.desText}>
-            one app for all your stydy abroad needs
+            one app for all your study abroad needs
           </Text>
         </Animated.View>
 
@@ -88,17 +88,16 @@ const AppInfo = ({navigation}: any) => {
         <Animated.View style={[styles.infoView, animatedStylesSnd]}>
           <Text style={styles.welcomeText}>Track Your Progress</Text>
           <Text style={styles.desText}>
-            And stay on top of your applications & offer sratus at all times
+            Give free mock tests and check your performance
           </Text>
         </Animated.View>
 
         <Animated.View style={[styles.infoView, animatedStylesTrd]}>
           <Text style={styles.welcomeText}>
-            Discover Universities & Sourses
+            Guidance for IELTS and TOEFL exam
           </Text>
           <Text style={styles.desText}>
-            Across the UK, Australia, New Zealand, Canada, Us, Europe & South
-            Korea
+            And stay on top of your applications & offer sratus at all times
           </Text>
         </Animated.View>
       </View>

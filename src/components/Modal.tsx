@@ -29,6 +29,7 @@ const Modals = ({
   hospital,
   transport,
   mall,
+  hostel,
 }: mType) => {
   const {styles} = useStyles(stylesheet);
 
@@ -45,31 +46,6 @@ const Modals = ({
             <Image source={Iconpack.BACK} style={styles.backIcon} />
             <Text style={styles.schoolTxt}>Close</Text>
           </TouchableOpacity>
-          <View style={styles.rowCenterBW}>
-            <Text style={styles.schoolTxt}>Total Courses</Text>
-            <Text style={styles.schoolTxt}>{item?.program_count ?? '-'}</Text>
-          </View>
-
-          <View style={styles.rowCenterBW}>
-            <Text style={styles.schoolTxt}>City Name</Text>
-            <Text style={styles.schoolTxt}>{item?.city_name ?? '-'}</Text>
-          </View>
-          <View style={styles.rowCenterBW}>
-            <Text style={styles.schoolTxt}>University type</Text>
-            <Text style={styles.schoolTxt}>{item?.public_private ?? '-'}</Text>
-          </View>
-          <View style={styles.rowCenterBW}>
-            <Text style={styles.schoolTxt}>University rank</Text>
-            <Text style={styles.schoolTxt}>{item?.school_rank ?? '-'}</Text>
-          </View>
-          <View style={styles.rowCenterBW}>
-            <Text style={styles.schoolTxt}>University fees</Text>
-            <Text style={styles.schoolTxt}>
-              {!isEmpty(item.application_fee)
-                ? `${item.application_fee} ${item.application_fee_currency}`
-                : `34K ${item.application_fee_currency ?? ''}`}
-            </Text>
-          </View>
 
           <View style={styles.rowCenterBW}>
             <Text style={styles.schoolTxt}>Nearby Airport</Text>
@@ -88,13 +64,54 @@ const Modals = ({
             <Text style={styles.schoolTxt}>Nearby Transport</Text>
             <Text style={styles.schoolTxt}>{transport} KM</Text>
           </View>
+          <View style={styles.rowCenterBW}>
+            <Text style={styles.schoolTxt}>Nearby Hostels</Text>
+            <Text style={styles.schoolTxt}>{hostel} KM</Text>
+          </View>
+
           <View style={styles.buttonView}>
-            <Button
+            <Text style={[styles.schoolTxt, styles.color]}>
+              Talk to an Expert :-
+            </Text>
+
+            <View style={styles.rowBw}>
+              <Text
+                onPress={() => {
+                  Linking.openURL('tel:9136504782');
+                }}
+                style={[styles.schoolTxt, styles.call]}>
+                Rajas Karandikar
+              </Text>
+              <Text
+                onPress={() => {
+                  Linking.openURL('tel:7715912608');
+                }}
+                style={[styles.schoolTxt, styles.call]}>
+                Sakshi Raorane
+              </Text>
+            </View>
+            <View style={styles.rowBw}>
+              <Text
+                onPress={() => {
+                  Linking.openURL('tel:7738291269');
+                }}
+                style={[styles.schoolTxt, styles.call]}>
+                Jainil Sampat
+              </Text>
+              <Text
+                onPress={() => {
+                  Linking.openURL('tel:8104826492');
+                }}
+                style={[styles.schoolTxt, styles.call]}>
+                Vrushabh Bhandare
+              </Text>
+            </View>
+            {/* <Button
               title="Talk to an Expert for FREE"
               onPress={() => {
                 Linking.openURL('tel:7715912608');
               }}
-            />
+            /> */}
           </View>
         </View>
       </Modal>
@@ -105,7 +122,7 @@ const Modals = ({
 export default Modals;
 
 const stylesheet = createStyleSheet(theme => ({
-  flex: {flex: 1},
+  flex: {flex: 1, backgroundColor: 'red'},
   backIcon: {height: 20, width: 20, marginRight: 10},
   row: {
     flexDirection: 'row',
@@ -115,11 +132,13 @@ const stylesheet = createStyleSheet(theme => ({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginVertical: 10,
   },
   buttonView: {
     paddingTop: 20,
-    borderTopWidth: 0.9,
+    borderTopWidth: 1,
     borderTopColor: theme.colors.textColorHq,
+    marginTop: 5,
     borderStyle: 'dashed',
   },
   schoolTxt: {
@@ -128,7 +147,7 @@ const stylesheet = createStyleSheet(theme => ({
     fontWeight: '500',
   },
   modalView: {
-    backgroundColor: theme.colors.lightWhite33,
+    backgroundColor: '#FEFBF3',
     position: 'absolute',
     right: 0,
     bottom: 0,
@@ -141,4 +160,16 @@ const stylesheet = createStyleSheet(theme => ({
     flexDirection: 'row',
     marginBottom: 10,
   },
+  color: {
+    color: theme.colors.buttonColor,
+    marginBottom: 10,
+    textDecorationLine: 'underline',
+    direction: 'inherit',
+  },
+  call: {
+    textDecorationLine: 'underline',
+    direction: 'inherit',
+    color: theme.colors.blue,
+  },
+  rowBw: {flexDirection: 'row', justifyContent: 'space-between'},
 }));
