@@ -10,13 +10,10 @@ import DegreePicker from '../components/UserPrefs/DegreePicker';
 import BachelorsDegree from '../components/UserPrefs/BachelorsDegree';
 import BachelorsDegreeInPursue from '../components/UserPrefs/BachelorsDegreeInPursue';
 import BachelorsDegreeExtraExams from '../components/UserPrefs/BachelorsDegreeExtraExams';
+import EmptyScreen from '../components/UserPrefs/EmptyScreen';
 
 const UserPref = observer(({navigation}: any) => {
   const {styles} = useStyles(stylesheet);
-
-  if (false) {
-    navigation;
-  }
 
   return (
     <View style={styles.flex}>
@@ -39,7 +36,7 @@ const UserPref = observer(({navigation}: any) => {
       ) : isEmpty(AuthStore.extraExamDetails) ? (
         <BachelorsDegreeExtraExams navigation={navigation} />
       ) : (
-        <></>
+        <EmptyScreen navigation={navigation} />
       )}
     </View>
   );
