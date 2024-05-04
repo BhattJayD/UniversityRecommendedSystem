@@ -36,7 +36,7 @@ const UserPref = observer(({navigation}: any) => {
       ) : isEmpty(AuthStore.extraExamDetails) ? (
         <BachelorsDegreeExtraExams navigation={navigation} />
       ) : (
-        <EmptyScreen navigation={navigation} />
+        <></>
       )}
     </View>
   );
