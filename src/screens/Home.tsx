@@ -19,14 +19,17 @@ import RenderSchoolItem from '../components/Home/RenderSchoolItem';
 import {useSharedValue} from 'react-native-reanimated';
 import {isEmpty} from '../utils/Helper';
 import Iconpack from '../utils/Iconpack';
+import { useIsFocused } from '@react-navigation/native';
 
 const Home = observer(({navigation}: any) => {
   const {styles} = useStyles(stylesheet);
   // const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const isFocused = useIsFocused();
 
   const data = useRef(null);
   useEffect(() => {
+    if(isFocused){
     (async () => {
       setIsLoading(true);
       let userData = await AuthStore.checkUserExistOrNot(
@@ -96,8 +99,8 @@ const Home = observer(({navigation}: any) => {
         AuthStore.trendingCollegeData = responseTrending.data.Data;
       });
       setIsLoading(false);
-    })();
-  }, []);
+    })();}
+  }, [isFocused]);
 
   const viewableItemsReach = useSharedValue<ViewToken[]>([]);
   function shuffleArray(array: any) {
